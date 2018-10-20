@@ -143,11 +143,11 @@ Define the way the adapter works by using ``whenInstanceof`` (if the model is of
 
 All the rules defined must cover all the possible usages (for each element in the adapter's items list, must be at least one rule that can be applied).
 
-### Why?
+### Why DeclarativeAdapter-kt?
 
 1. Single responsibility principle: all the cell view have one and only single role.
 2. Decouples your row logic from activities and fragments
-3. Never write a adapter class again!
+3. Never write an adapter class again!
 4. No more boring, unmaintainable boilerplate code!
 5. Keep all your adapter rules in one concise section of code
 
