@@ -1,0 +1,3 @@
+package ro.andreidobrescu.declarativeadapterkt.model
+
+class CommentsHeader

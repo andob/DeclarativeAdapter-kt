@@ -1,0 +1,1 @@
+include ':sample', ':declarative_adapter_kt'
