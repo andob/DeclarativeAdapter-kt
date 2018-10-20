@@ -54,6 +54,8 @@ class RestaurantCellView : CellView<Restaurant>
 
 
 
+
+
 ```
 ```kotlin
     override fun setData(restaurant : Restaurant)
