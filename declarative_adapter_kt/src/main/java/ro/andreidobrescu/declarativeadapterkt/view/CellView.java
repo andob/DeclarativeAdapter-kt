@@ -1,4 +1,4 @@
-package ro.andreidobrescu.declarativeadapterkt;
+package ro.andreidobrescu.declarativeadapterkt.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -50,4 +50,9 @@ public abstract class CellView<MODEL> extends RelativeLayout
 
     public abstract int layout();
     public abstract void setData(MODEL data);
+
+    public boolean isSticky()
+    {
+        return false;
+    }
 }

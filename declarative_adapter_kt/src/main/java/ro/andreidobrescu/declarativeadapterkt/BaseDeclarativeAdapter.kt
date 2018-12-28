@@ -1,6 +1,7 @@
 package ro.andreidobrescu.declarativeadapterkt
 
 import android.support.v7.widget.RecyclerView
+import ro.andreidobrescu.declarativeadapterkt.view.CellView
 
 abstract class BaseDeclarativeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 {

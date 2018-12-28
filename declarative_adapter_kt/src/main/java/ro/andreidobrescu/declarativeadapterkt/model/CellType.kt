@@ -1,6 +1,7 @@
-package ro.andreidobrescu.declarativeadapterkt
+package ro.andreidobrescu.declarativeadapterkt.model
 
 import android.content.Context
+import ro.andreidobrescu.declarativeadapterkt.view.CellView
 import kotlin.reflect.KClass
 
 class CellType<MODEL : Any>

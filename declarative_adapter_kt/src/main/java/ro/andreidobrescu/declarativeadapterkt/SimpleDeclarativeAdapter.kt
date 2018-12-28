@@ -3,6 +3,7 @@ package ro.andreidobrescu.declarativeadapterkt
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import ro.andreidobrescu.declarativeadapterkt.view.CellView
 
 class SimpleDeclarativeAdapter<MODEL>
 (
