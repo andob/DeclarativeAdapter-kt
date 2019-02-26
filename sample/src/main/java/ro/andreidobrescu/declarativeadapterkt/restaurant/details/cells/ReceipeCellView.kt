@@ -3,9 +3,9 @@ package ro.andreidobrescu.declarativeadapterkt.restaurant.details.cells
 import android.content.Context
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.cell_receipe.view.*
-import ro.andreidobrescu.declarativeadapterkt.CellView
-import ro.andreidobrescu.declarativeadapterkt.R
+import ro.andreidobrescu.declarativeadapterktsample.R
 import ro.andreidobrescu.declarativeadapterkt.model.Receipe
+import ro.andreidobrescu.declarativeadapterkt.view.CellView
 
 class ReceipeCellView : CellView<Receipe>
 {

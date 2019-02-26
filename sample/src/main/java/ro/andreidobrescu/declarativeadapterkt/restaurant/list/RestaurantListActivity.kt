@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_restaurant_list.*
-import ro.andreidobrescu.declarativeadapterkt.R
+import ro.andreidobrescu.declarativeadapterktsample.R
 import ro.andreidobrescu.declarativeadapterkt.SimpleDeclarativeAdapter
 import ro.andreidobrescu.declarativeadapterkt.model.Restaurant
 
