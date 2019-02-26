@@ -7,6 +7,7 @@ import ro.andreidobrescu.declarativeadapterkt.CellView
 import ro.andreidobrescu.declarativeadapterkt.R
 import ro.andreidobrescu.declarativeadapterkt.model.Restaurant
 import ro.andreidobrescu.declarativeadapterkt.restaurant.details.RestaurantDetailsActivityBundleBuilder
+import java.lang.RuntimeException
 
 class RestaurantCellView : CellView<Restaurant>
 {
@@ -20,14 +21,16 @@ class RestaurantCellView : CellView<Restaurant>
                 .load(restaurant.image)
                 .into(imageView)
 
-        nameTv.text=restaurant.name;
-        locationTv.text=restaurant.location;
-        ratingTv.text="Rating: ${restaurant.rating}/5";
+        nameTv.text=restaurant.name
+        locationTv.text=restaurant.location
+        ratingTv.text="Rating: ${restaurant.rating}/5"
 
         cell.setOnClickListener { view ->
             RestaurantDetailsActivityBundleBuilder()
                     .restaurant(restaurant)
                     .startActivity(view.context)
         }
+
+        throw RuntimeException("test")
     }
 }

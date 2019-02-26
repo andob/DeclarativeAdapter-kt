@@ -1,6 +1,7 @@
 package ro.andreidobrescu.declarativeadapterkt
 
 import android.support.v7.widget.RecyclerView
+import android.widget.Toast
 import ro.andreidobrescu.declarativeadapterkt.view.CellView
 
 abstract class BaseDeclarativeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
@@ -16,6 +17,8 @@ abstract class BaseDeclarativeAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
         }
         catch (ex : Exception)
         {
+            if (BuildConfig.DEBUG)
+                Toast.makeText(holder.itemView.context, ex.message, Toast.LENGTH_SHORT).show()
             ex.printStackTrace()
         }
     }

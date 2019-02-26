@@ -22,7 +22,7 @@ android {
 
 dependencies {
     //Kotlin
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //AppCompat
     implementation 'com.android.support:appcompat-v7:28.0.0'
@@ -42,7 +42,7 @@ dependencies {
     kapt 'com.github.MFlisar.BundleArgs:bundleargs-processor:1.6'
 
     //DeclarativeAdapter
-    implementation('com.github.andob:DeclarativeAdapter-kt:1.0.0') {
+    implementation('com.github.andob:DeclarativeAdapter-kt:1.0.1') {
         exclude group: 'com.android.support'
         exclude group: 'org.jetbrains.kotlin'
     }
