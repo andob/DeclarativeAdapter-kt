@@ -1,4 +1,4 @@
-package ro.andreidobrescu.declarativeadapterkt.restaurant.details
+package ro.andreidobrescu.declarativeadapterktsample.restaurant.details
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -8,12 +8,12 @@ import com.michaelflisar.bundlebuilder.BundleBuilder
 import kotlinx.android.synthetic.main.activity_restaurant_details.*
 import ro.andreidobrescu.declarativeadapterkt.BaseDeclarativeAdapter
 import ro.andreidobrescu.declarativeadapterkt.DeclarativeAdapter
-import ro.andreidobrescu.declarativeadapterkt.model.*
-import ro.andreidobrescu.declarativeadapterkt.restaurant.details.cells.CommentCellView
-import ro.andreidobrescu.declarativeadapterkt.restaurant.details.cells.CommentsHeaderCellView
-import ro.andreidobrescu.declarativeadapterkt.restaurant.details.cells.ReceipeCellView
-import ro.andreidobrescu.declarativeadapterkt.restaurant.details.cells.YourCommentCellView
-import ro.andreidobrescu.declarativeadapterkt.restaurant.list.RestaurantCellView
+import ro.andreidobrescu.declarativeadapterktsample.model.*
+import ro.andreidobrescu.declarativeadapterktsample.restaurant.details.cells.CommentCellView
+import ro.andreidobrescu.declarativeadapterktsample.restaurant.details.cells.CommentsHeaderCellView
+import ro.andreidobrescu.declarativeadapterktsample.restaurant.details.cells.ReceipeCellView
+import ro.andreidobrescu.declarativeadapterktsample.restaurant.details.cells.YourCommentCellView
+import ro.andreidobrescu.declarativeadapterktsample.restaurant.list.RestaurantCellView
 import ro.andreidobrescu.declarativeadapterktsample.R
 
 @BundleBuilder
@@ -31,7 +31,7 @@ class RestaurantDetailsActivity : AppCompatActivity()
         
         recyclerView.layoutManager=LinearLayoutManager(this)
         
-        val adapter=DeclarativeAdapter()
+        val adapter= DeclarativeAdapter()
         
         adapter.whenInstanceOf(Restaurant::class,
                     use = { RestaurantCellView(it) })

@@ -1,4 +1,4 @@
-package ro.andreidobrescu.declarativeadapterkt.model
+package ro.andreidobrescu.declarativeadapterktsample.model
 
 class Comment
 (

@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name="ro.andreidobrescu.declarativeadapterkt.restaurant.list.RestaurantListActivity">
+        <activity android:name=".restaurant.list.RestaurantListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="ro.andreidobrescu.declarativeadapterkt.restaurant.details.RestaurantDetailsActivity"/>
+        <activity android:name=".restaurant.details.RestaurantDetailsActivity"/>
 
     </application>
 

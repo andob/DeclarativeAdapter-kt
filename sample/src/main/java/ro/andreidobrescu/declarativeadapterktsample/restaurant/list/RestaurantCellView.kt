@@ -1,12 +1,12 @@
-package ro.andreidobrescu.declarativeadapterkt.restaurant.list
+package ro.andreidobrescu.declarativeadapterktsample.restaurant.list
 
 import android.content.Context
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.cell_restaurant.view.*
-import ro.andreidobrescu.declarativeadapterktsample.R
-import ro.andreidobrescu.declarativeadapterkt.model.Restaurant
-import ro.andreidobrescu.declarativeadapterkt.restaurant.details.RestaurantDetailsActivityBundleBuilder
 import ro.andreidobrescu.declarativeadapterkt.view.CellView
+import ro.andreidobrescu.declarativeadapterktsample.R
+import ro.andreidobrescu.declarativeadapterktsample.model.Restaurant
+import ro.andreidobrescu.declarativeadapterktsample.restaurant.details.RestaurantDetailsActivityBundleBuilder
 import java.lang.RuntimeException
 
 class RestaurantCellView : CellView<Restaurant>

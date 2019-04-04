@@ -6,7 +6,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "ro.andreidobrescu.declarativeadapter_ktsample"
+        applicationId "ro.andreidobrescu.declarativeadapterktsample"
         minSdkVersion 14
         targetSdkVersion 28
         versionCode 1
