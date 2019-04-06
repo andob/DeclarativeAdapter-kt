@@ -6,7 +6,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "ro.andreidobrescu.declarativeadapter_kt"
+        applicationId "ro.andreidobrescu.declarativeadapterktsample"
         minSdkVersion 14
         targetSdkVersion 28
         versionCode 1
@@ -49,7 +49,7 @@ dependencies {
     kapt 'com.github.MFlisar.BundleArgs:bundleargs-processor:1.6'
 
     //DeclarativeAdapter
-    implementation('com.github.andob:DeclarativeAdapter-kt:1.0.0') {
+    implementation('com.github.andob:DeclarativeAdapter-kt:1.0.5') {
         exclude group: 'com.android.support'
         exclude group: 'org.jetbrains.kotlin'
     }

@@ -1,9 +1,9 @@
-package ro.andreidobrescu.declarativeadapterkt.restaurant.details.cells
+package ro.andreidobrescu.declarativeadapterktsample.restaurant.details.cells
 
 import android.content.Context
-import ro.andreidobrescu.declarativeadapterkt.CellView
-import ro.andreidobrescu.declarativeadapterkt.R
-import ro.andreidobrescu.declarativeadapterkt.model.CommentsHeader
+import ro.andreidobrescu.declarativeadapterkt.view.CellView
+import ro.andreidobrescu.declarativeadapterktsample.R
+import ro.andreidobrescu.declarativeadapterktsample.model.CommentsHeader
 
 class CommentsHeaderCellView : CellView<CommentsHeader>
 {
