@@ -1,8 +1,8 @@
 package ro.andreidobrescu.declarativeadapterktsample.restaurant.list
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_restaurant_list.*
 import ro.andreidobrescu.declarativeadapterkt.SimpleDeclarativeAdapter
 import ro.andreidobrescu.declarativeadapterktsample.R

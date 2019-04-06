@@ -1,7 +1,7 @@
 package ro.andreidobrescu.declarativeadapterkt
 
 import android.content.pm.ApplicationInfo
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.widget.Toast
 import ro.andreidobrescu.declarativeadapterkt.view.CellView
 

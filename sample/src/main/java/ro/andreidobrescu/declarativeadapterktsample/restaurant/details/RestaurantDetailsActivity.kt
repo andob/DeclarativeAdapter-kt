@@ -1,8 +1,8 @@
 package ro.andreidobrescu.declarativeadapterktsample.restaurant.details
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.michaelflisar.bundlebuilder.Arg
 import com.michaelflisar.bundlebuilder.BundleBuilder
 import kotlinx.android.synthetic.main.activity_restaurant_details.*
