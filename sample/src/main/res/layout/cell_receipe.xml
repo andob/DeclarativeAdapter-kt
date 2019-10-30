@@ -33,7 +33,7 @@
                 android:textColor="#000000"
                 android:layout_marginLeft="16dp"
                 tools:text="Cabbage rolls"
-                android:id="@+id/nameTv"/>
+                android:id="@+id/nameLabel"/>
 
         </LinearLayout>
 

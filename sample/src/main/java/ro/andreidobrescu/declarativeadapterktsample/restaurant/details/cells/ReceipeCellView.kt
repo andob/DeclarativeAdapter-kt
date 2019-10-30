@@ -1,9 +1,10 @@
 package ro.andreidobrescu.declarativeadapterktsample.restaurant.details.cells
 
 import android.content.Context
-import com.bumptech.glide.Glide
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.cell_receipe.view.*
-import ro.andreidobrescu.declarativeadapterkt.view.CellView
+import ro.andreidobrescu.declarativeadapterkt.internal.CellView
+import ro.andreidobrescu.declarativeadapterkt.internal.ModelBinder
 import ro.andreidobrescu.declarativeadapterktsample.R
 import ro.andreidobrescu.declarativeadapterktsample.model.Receipe
 
@@ -13,12 +14,13 @@ class ReceipeCellView : CellView<Receipe>
 
     override fun layout() : Int = R.layout.cell_receipe
 
-    override fun setData(receipe : Receipe)
+    @ModelBinder
+    fun setReceipe(receipe : Receipe)
     {
-        Glide.with(context)
+        Picasso.get()
                 .load(receipe.image)
                 .into(imageView)
 
-        nameTv.text=receipe.name
+        nameLabel.text=receipe.name
     }
 }

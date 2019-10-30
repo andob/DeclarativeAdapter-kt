@@ -1,13 +1,13 @@
 package ro.andreidobrescu.declarativeadapterktsample.restaurant.list
 
 import android.content.Context
-import com.bumptech.glide.Glide
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.cell_restaurant.view.*
-import ro.andreidobrescu.declarativeadapterkt.view.CellView
+import ro.andreidobrescu.declarativeadapterkt.internal.CellView
+import ro.andreidobrescu.declarativeadapterkt.internal.ModelBinder
 import ro.andreidobrescu.declarativeadapterktsample.R
 import ro.andreidobrescu.declarativeadapterktsample.model.Restaurant
 import ro.andreidobrescu.declarativeadapterktsample.restaurant.details.RestaurantDetailsActivityBundleBuilder
-import java.lang.RuntimeException
 
 class RestaurantCellView : CellView<Restaurant>
 {
@@ -15,22 +15,21 @@ class RestaurantCellView : CellView<Restaurant>
 
     override fun layout() : Int = R.layout.cell_restaurant
 
-    override fun setData(restaurant : Restaurant)
+    @ModelBinder
+    fun setRestaurant(restaurant : Restaurant)
     {
-        Glide.with(context)
+        Picasso.get()
                 .load(restaurant.image)
                 .into(imageView)
 
-        nameTv.text=restaurant.name
-        locationTv.text=restaurant.location
-        ratingTv.text="Rating: ${restaurant.rating}/5"
+        nameLabel.text=restaurant.name
+        locationLabel.text=restaurant.location
+        ratingLabel.text="Rating: ${restaurant.rating}/5"
 
         cell.setOnClickListener { view ->
             RestaurantDetailsActivityBundleBuilder()
                     .restaurant(restaurant)
                     .startActivity(view.context)
         }
-
-        throw RuntimeException("test")
     }
 }

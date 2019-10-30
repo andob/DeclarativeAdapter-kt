@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.michaelflisar.bundlebuilder.Arg
 import com.michaelflisar.bundlebuilder.BundleBuilder
 import kotlinx.android.synthetic.main.activity_restaurant_details.*
-import ro.andreidobrescu.declarativeadapterkt.BaseDeclarativeAdapter
 import ro.andreidobrescu.declarativeadapterkt.DeclarativeAdapter
 import ro.andreidobrescu.declarativeadapterktsample.model.*
 import ro.andreidobrescu.declarativeadapterktsample.restaurant.details.cells.CommentCellView
@@ -31,7 +30,7 @@ class RestaurantDetailsActivity : AppCompatActivity()
         
         recyclerView.layoutManager=LinearLayoutManager(this)
         
-        val adapter= DeclarativeAdapter()
+        val adapter=DeclarativeAdapter()
         
         adapter.whenInstanceOf(Restaurant::class,
                     use = { RestaurantCellView(it) })
@@ -40,11 +39,23 @@ class RestaurantDetailsActivity : AppCompatActivity()
                 .whenInstanceOf(CommentsHeader::class,
                     use = { CommentsHeaderCellView(it) })
                 .whenInstanceOf(Comment::class,
-                    and = { index, comment -> comment.createdBy==User.loggedInUserId },
-                    use = { YourCommentCellView(it, onDeleteListener = { deleteComment(it) }) })
+                    and = { index, comment ->
+                        comment.createdBy==User.loggedInUserId
+                    },
+                    use = { context ->
+                        YourCommentCellView(context,
+                            onDeleteListener = { comment ->
+                                adapter.items.remove(comment)
+                                adapter.notifyDataSetChanged()
+                            })
+                    })
                 .whenInstanceOf(Comment::class,
-                    and = { index, comment -> comment.createdBy!=User.loggedInUserId },
-                    use = { CommentCellView(it) })
+                    and = { index, comment ->
+                        comment.createdBy!=User.loggedInUserId
+                    },
+                    use = { context ->
+                        CommentCellView(context)
+                    })
         
         val restaurantDetails=provideRestaurantDetails()
         val items=mutableListOf<Any>()
@@ -59,13 +70,6 @@ class RestaurantDetailsActivity : AppCompatActivity()
         
         recyclerView.adapter=adapter
         adapter.setItems(items)
-    }
-
-    private fun deleteComment(comment : Comment)
-    {
-        val adapter=recyclerView.adapter as BaseDeclarativeAdapter
-        adapter.items.remove(comment)
-        adapter.notifyDataSetChanged()
     }
 
     private fun provideRestaurantDetails() : RestaurantDetails = RestaurantDetails(

@@ -4,11 +4,11 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "ro.andreidobrescu.declarativeadapterktsample"
         minSdkVersion 14
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
     }
@@ -38,17 +38,12 @@ dependencies {
     implementation"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     //AppCompat
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha04'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-rc01'
     implementation 'androidx.cardview:cardview:1.0.0'
 
-    //ButterKnife
-    implementation 'com.jakewharton:butterknife:10.1.0'
-    kapt 'com.jakewharton:butterknife-compiler:10.1.0'
-
-    //Glide
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    kapt 'com.github.bumptech.glide:compiler:4.9.0'
+    //Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     //BundleArgs
     implementation 'com.github.MFlisar.BundleArgs:bundleargs-annotation:1.6'

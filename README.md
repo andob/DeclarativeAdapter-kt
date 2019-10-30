@@ -37,11 +37,14 @@ class Restaurant
 ) : Serializable
 ```
 
+
+
+
 #### 2. Create a Cell View class representing your row / "item view holder" for your model:
 
-You must override two methods:
-With ``layout`` you specify the layout used for your cell.
-With ``setData`` you bind a model object to your views, setup event listeners, etc. Your row will be decoupled from the Activity / Fragment, thus in order to communicate with the activity, you can send events to it (either by using EventBus or by declaring custom event listeners like I did [here](https://github.com/andob/DeclarativeAdapter-kt/blob/master/sample/src/main/java/ro/andreidobrescu/declarativeadapterkt/restaurant/details/cells/YourCommentCellView.kt).
+Override the ``layout`` method the you specify the layout id used for your cell.
+
+Declare a method annotated with ``ModelBinder``. In this method, bind your model to the views, setup event listeners, etc. Your row will be decoupled from the Activity / Fragment, thus in order to communicate with the activity, you can send events to it (either by using EventBus or by declaring custom event listeners like I did [here](https://github.com/andob/DeclarativeAdapter-kt/blob/master/sample/src/main/java/ro/andreidobrescu/declarativeadapterkt/restaurant/details/cells/YourCommentCellView.kt).
 
 ```kotlin
 class RestaurantCellView : CellView<Restaurant>
@@ -49,16 +52,9 @@ class RestaurantCellView : CellView<Restaurant>
     constructor(context : Context?) : super(context)
 
     override fun layout() : Int = R.layout.cell_restaurant
-
-
-
-
-
-
-
-```
-```kotlin
-    override fun setData(restaurant : Restaurant)
+    
+    @ModelBinder
+    override fun setRestaurant(restaurant : Restaurant)
     {
         Glide.with(context)
                 .load(restaurant.image)
@@ -107,17 +103,29 @@ adapter.setItems(provideRestaurants())
 val adapter=DeclarativeAdapter()
 
 adapter.whenInstanceOf(Restaurant::class,
-            use = { RestaurantCellView(it) })
-        .whenInstanceOf(Receipe::class,
-            use = { ReceipeCellView(it) })
-        .whenInstanceOf(CommentsHeader::class,
-            use = { CommentsHeaderCellView(it) })
-        .whenInstanceOf(Comment::class,
-            and = { index, comment -> comment.createdBy==User.loggedInUserId },
-            use = { YourCommentCellView(it, onDeleteListener = { deleteComment(it) }) })
-        .whenInstanceOf(Comment::class,
-            and = { index, comment -> comment.createdBy!=User.loggedInUserId },
-            use = { CommentCellView(it) })
+           use = { RestaurantCellView(it) })
+       .whenInstanceOf(Receipe::class,
+           use = { ReceipeCellView(it) })
+       .whenInstanceOf(CommentsHeader::class,
+           use = { CommentsHeaderCellView(it) })
+       .whenInstanceOf(Comment::class,
+           and = { index, comment ->
+               comment.createdBy==User.loggedInUserId
+           },
+           use = { context ->
+               YourCommentCellView(context,
+                   onDeleteListener = { comment ->
+                       adapter.items.remove(comment)
+                       adapter.notifyDataSetChanged()
+                   })
+           })
+       .whenInstanceOf(Comment::class,
+           and = { index, comment -> 
+               comment.createdBy!=User.loggedInUserId
+           },
+           use = { context ->
+               CommentCellView(context)
+           })
 
 val restaurantDetails=provideRestaurantDetails()
 val items=mutableListOf<Any>()

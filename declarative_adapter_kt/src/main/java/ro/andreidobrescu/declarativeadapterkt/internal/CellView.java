@@ -1,4 +1,4 @@
-package ro.andreidobrescu.declarativeadapterkt.view;
+package ro.andreidobrescu.declarativeadapterkt.internal;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -10,49 +10,37 @@ public abstract class CellView<MODEL> extends RelativeLayout
     public CellView(Context context)
     {
         super(context);
-        init(layout());
+        inflateLayout(layout());
     }
 
     public CellView(Context context, int layout)
     {
         super(context);
-        init(layout);
+        inflateLayout(layout);
     }
 
     public CellView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        init(layout());
+        inflateLayout(layout());
     }
 
     public CellView(Context context, AttributeSet attrs, int defStyleAttr)
     {
         super(context, attrs, defStyleAttr);
-        init(layout());
+        inflateLayout(layout());
     }
 
-    public CellView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
+    private void inflateLayout()
     {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(layout());
+        inflateLayout(layout());
     }
 
-    public void init()
-    {
-        init(layout());
-    }
-
-    public void init(int layout)
+    private void inflateLayout(int layout)
     {
         LayoutInflater inflater=(LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(layout, this, true);
     }
 
     public abstract int layout();
-    public abstract void setData(MODEL data);
-
-    public boolean isSticky()
-    {
-        return false;
-    }
 }
