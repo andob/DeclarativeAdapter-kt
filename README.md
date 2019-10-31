@@ -57,9 +57,9 @@ class RestaurantCellView : CellView<Restaurant>
                 .load(restaurant.image)
                 .into(imageView)
 
-        nameTv.text=restaurant.name;
-        locationTv.text=restaurant.location;
-        ratingTv.text="Rating: ${restaurant.rating}/5";
+        nameTextView.text=restaurant.name;
+        locationTextView.text=restaurant.location;
+        ratingTextView.text="Rating: ${restaurant.rating}/5";
 
         cell.setOnClickListener { view ->
             RestaurantDetailsActivityBundleBuilder()
@@ -150,7 +150,7 @@ All the rules defined must cover all the possible usages (for each element in th
 
 ### Why DeclarativeAdapter-kt?
 
-1. Single responsibility principle: all the cell view have one and only single role.
+1. Single responsibility principle: all the cell view classes have one and only single role.
 2. Decouples your row logic from activities and fragments
 3. Never write an adapter class again!
 4. No more boring, unmaintainable boilerplate code!
@@ -158,28 +158,19 @@ All the rules defined must cover all the possible usages (for each element in th
 
 ### Adapter utility methods
 
-The adapter extends RecyclerView.Adapter and has the following extra utility methods:
+The ``SimpleDeclarativeAdapter`` / ``DeclarativeAdapter`` classes have the following utility methods:
 
 1. ``setItems(items: List<Any>)`` - sets the items and notifies data set changed
 2. ``addItems(items : List<Any>)`` - adds more items to the adapter's list and notified data set changed
 3. ``addItems(items : List<Any>, atIndex : Int)`` - inserts an item in the items list and notifies data set changed
 4. ``clear()`` - clears the items from the list and notifies data set changed
 
-Furthermore, you have maximum flexibility by directly using adapter's items list:
-
-```kotlin
-private fun deleteComment(comment : Comment)
-{
-    val adapter=recyclerView.adapter as BaseDeclarativeAdapter
-    adapter.items.remove(comment)
-    adapter.notifyDataSetChanged()
-}
 ```
 
 ### License
 
 ```kotlin
-Copyright 2018 Andrei Dobrescu
+Copyright 2018 - 2019 Andrei Dobrescu
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

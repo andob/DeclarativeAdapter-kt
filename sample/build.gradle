@@ -50,9 +50,9 @@ dependencies {
     kapt 'com.github.MFlisar.BundleArgs:bundleargs-processor:1.6'
 
     //DeclarativeAdapter
-    implementation project(":declarative_adapter_kt")
-//    implementation('com.github.andob:DeclarativeAdapter-kt:1.1.1') {
-//        exclude group: 'com.android.support'
-//        exclude group: 'org.jetbrains.kotlin'
-//    }
+//    implementation project(":declarative_adapter_kt")
+    implementation('com.github.andob:DeclarativeAdapter-kt:1.1.2') {
+        exclude group: 'com.android.support'
+        exclude group: 'org.jetbrains.kotlin'
+    }
 }
