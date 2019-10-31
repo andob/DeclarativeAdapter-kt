@@ -165,8 +165,6 @@ The ``SimpleDeclarativeAdapter`` / ``DeclarativeAdapter`` classes have the follo
 3. ``addItems(items : List<Any>, atIndex : Int)`` - inserts an item in the items list and notifies data set changed
 4. ``clear()`` - clears the items from the list and notifies data set changed
 
-```
-
 ### License
 
 ```kotlin
