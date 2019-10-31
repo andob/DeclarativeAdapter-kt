@@ -1,4 +1,4 @@
-package ro.andreidobrescu.declarativeadapterkt.internal;
+package ro.andreidobrescu.declarativeadapterkt.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

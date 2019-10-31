@@ -3,8 +3,8 @@ package ro.andreidobrescu.declarativeadapterktsample.restaurant.list
 import android.content.Context
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.cell_restaurant.view.*
-import ro.andreidobrescu.declarativeadapterkt.internal.CellView
-import ro.andreidobrescu.declarativeadapterkt.internal.ModelBinder
+import ro.andreidobrescu.declarativeadapterkt.view.CellView
+import ro.andreidobrescu.declarativeadapterkt.model.ModelBinder
 import ro.andreidobrescu.declarativeadapterktsample.R
 import ro.andreidobrescu.declarativeadapterktsample.model.Restaurant
 import ro.andreidobrescu.declarativeadapterktsample.restaurant.details.RestaurantDetailsActivityBundleBuilder

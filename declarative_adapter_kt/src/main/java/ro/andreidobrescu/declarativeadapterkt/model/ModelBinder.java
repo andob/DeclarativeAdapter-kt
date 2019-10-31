@@ -1,4 +1,4 @@
-package ro.andreidobrescu.declarativeadapterkt.internal;
+package ro.andreidobrescu.declarativeadapterkt.model;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

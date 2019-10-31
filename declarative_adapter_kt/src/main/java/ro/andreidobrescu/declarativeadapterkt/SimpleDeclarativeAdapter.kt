@@ -3,8 +3,8 @@ package ro.andreidobrescu.declarativeadapterkt
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
-import ro.andreidobrescu.declarativeadapterkt.internal.CellView
-import ro.andreidobrescu.declarativeadapterkt.internal.ModelBinder
+import ro.andreidobrescu.declarativeadapterkt.view.CellView
+import ro.andreidobrescu.declarativeadapterkt.model.ModelBinder
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 
@@ -21,9 +21,10 @@ class SimpleDeclarativeAdapter<MODEL>
         view.layoutParams=RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
         val viewHolder=object : RecyclerView.ViewHolder(view) {}
 
-        binderMethod=view::class.java.declaredMethods.find { method ->
-            method.annotations.filterIsInstance<ModelBinder>().isNotEmpty()
-        }
+        if (binderMethod==null)
+            binderMethod=view::class.java.declaredMethods.find { method ->
+                method.annotations.filterIsInstance<ModelBinder>().isNotEmpty()
+            }
 
         return viewHolder
     }

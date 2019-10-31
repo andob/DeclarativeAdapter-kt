@@ -14,7 +14,7 @@ allprojects {
 ```
 ```
 dependencies {
-    implementation('com.github.andob:DeclarativeAdapter-kt:1.1.0') {
+    implementation('com.github.andob:DeclarativeAdapter-kt:1.1.2') {
             exclude group: 'com.android.support'
             exclude group: 'org.jetbrains.kotlin'
         }
@@ -23,7 +23,7 @@ dependencies {
 
 ### Creating a simple Adapter with one single cell type.
 
-<img src="https://raw.githubusercontent.com/andob/DeclarativeAdapter/master/SimpleDeclarativeAdapter.png" align="left" height="700" >
+<img src="https://raw.githubusercontent.com/andob/DeclarativeAdapter/master/SimpleDeclarativeAdapter.png" align="left" height="300" >
 
 #### 1. Let's say you have a model class:
 
@@ -37,14 +37,11 @@ class Restaurant
 ) : Serializable
 ```
 
-
-
-
 #### 2. Create a Cell View class representing your row / "item view holder" for your model:
 
 Override the ``layout`` method the you specify the layout id used for your cell.
 
-Declare a method annotated with ``ModelBinder``. In this method, bind your model to the views, setup event listeners, etc. Your row will be decoupled from the Activity / Fragment, thus in order to communicate with the activity, you can send events to it (either by using EventBus or by declaring custom event listeners like I did [here](https://github.com/andob/DeclarativeAdapter-kt/blob/master/sample/src/main/java/ro/andreidobrescu/declarativeadapterkt/restaurant/details/cells/YourCommentCellView.kt).
+Declare a method annotated with ``ModelBinder``. In this method, bind your model to the views, setup event listeners, etc. Your row will be decoupled from the Activity / Fragment, thus in order to communicate with the activity, you can send events to it (either by using EventBus or by declaring custom event listeners like I did [here](https://github.com/andob/DeclarativeAdapter-kt/blob/master/sample/src/main/java/ro/andreidobrescu/declarativeadapterkt/restaurant/details/cells/YourCommentCellView.kt)).
 
 ```kotlin
 class RestaurantCellView : CellView<Restaurant>

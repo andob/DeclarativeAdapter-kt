@@ -3,8 +3,8 @@ package ro.andreidobrescu.declarativeadapterktsample.restaurant.details.cells
 import android.content.Context
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.cell_receipe.view.*
-import ro.andreidobrescu.declarativeadapterkt.internal.CellView
-import ro.andreidobrescu.declarativeadapterkt.internal.ModelBinder
+import ro.andreidobrescu.declarativeadapterkt.view.CellView
+import ro.andreidobrescu.declarativeadapterkt.model.ModelBinder
 import ro.andreidobrescu.declarativeadapterktsample.R
 import ro.andreidobrescu.declarativeadapterktsample.model.Receipe
 

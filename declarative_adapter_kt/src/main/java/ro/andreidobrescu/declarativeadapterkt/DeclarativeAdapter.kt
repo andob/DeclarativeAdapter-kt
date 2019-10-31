@@ -5,9 +5,9 @@ import android.content.pm.ApplicationInfo
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import android.widget.Toast
-import ro.andreidobrescu.declarativeadapterkt.internal.CellType
-import ro.andreidobrescu.declarativeadapterkt.internal.CellView
-import ro.andreidobrescu.declarativeadapterkt.internal.ModelBinder
+import ro.andreidobrescu.declarativeadapterkt.model.CellType
+import ro.andreidobrescu.declarativeadapterkt.view.CellView
+import ro.andreidobrescu.declarativeadapterkt.model.ModelBinder
 import java.lang.reflect.InvocationTargetException
 import kotlin.reflect.KClass
 
@@ -56,9 +56,10 @@ class DeclarativeAdapter : BaseDeclarativeAdapter()
         view?.layoutParams=RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
         val viewHolder=object : RecyclerView.ViewHolder(view!!) {}
 
-        cellType.viewModelBinderMethod=view::class.java.declaredMethods.find { method ->
-            method.annotations.filterIsInstance<ModelBinder>().isNotEmpty()
-        }
+        if (cellType.viewModelBinderMethod==null)
+            cellType.viewModelBinderMethod=view::class.java.declaredMethods.find { method ->
+                method.annotations.filterIsInstance<ModelBinder>().isNotEmpty()
+            }
 
         return viewHolder
     }
