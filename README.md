@@ -1,7 +1,6 @@
 # DeclarativeAdapter-kt
 
 ### Easiest way to declare RecyclerView Adapters in Android! No more boilerplate code :)
-### If you're using Java, please use [DeclarativeAdapter](https://github.com/andob/DeclarativeAdapter)
 
 ### Import
 
