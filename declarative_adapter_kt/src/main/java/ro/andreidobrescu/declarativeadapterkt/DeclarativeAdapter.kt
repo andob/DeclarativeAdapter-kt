@@ -9,7 +9,6 @@ import ro.andreidobrescu.declarativeadapterkt.model.CellType
 import ro.andreidobrescu.declarativeadapterkt.view.CellView
 import ro.andreidobrescu.declarativeadapterkt.model.ModelBinder
 import java.lang.reflect.InvocationTargetException
-import kotlin.reflect.KClass
 
 class DeclarativeAdapter : BaseDeclarativeAdapter()
 {
@@ -85,7 +84,23 @@ class DeclarativeAdapter : BaseDeclarativeAdapter()
         }
     }
 
-    fun <MODEL : Any> whenInstanceOf(clazz : KClass<MODEL>, use : (Context) -> (CellView<MODEL>)) : DeclarativeAdapter
+    fun <MODEL : Any> whenInstanceOf(clazz : Class<MODEL>) = Builder(adapter = this, modelType = clazz)
+
+    class Builder<MODEL : Any>(val adapter : DeclarativeAdapter, val modelType : Class<MODEL>)
+    {
+        fun use(factory : (Context) -> (CellView<MODEL>)) =
+            adapter.whenInstanceOf(modelType, use = factory)
+
+        fun and(predicate : (Int, MODEL) -> (Boolean)) = Builder2(adapter = adapter, modelType = modelType, predicate = predicate)
+
+        class Builder2<MODEL : Any>(val adapter : DeclarativeAdapter, val modelType : Class<MODEL>, val predicate : (Int, MODEL) -> (Boolean))
+        {
+            fun use(factory : (Context) -> (CellView<MODEL>)) =
+                adapter.whenInstanceOf(modelType, and = predicate, use = factory)
+        }
+    }
+
+    fun <MODEL : Any> whenInstanceOf(clazz : Class<MODEL>, use : (Context) -> (CellView<MODEL>)) : DeclarativeAdapter
     {
         val type=CellType<MODEL>()
         type.modelClass=clazz
@@ -94,7 +109,7 @@ class DeclarativeAdapter : BaseDeclarativeAdapter()
         return this
     }
 
-    fun <MODEL : Any> whenInstanceOf(clazz : KClass<MODEL>, and : ((Int, MODEL) -> (Boolean)), use : (Context) -> (CellView<MODEL>)) : DeclarativeAdapter
+    fun <MODEL : Any> whenInstanceOf(clazz : Class<MODEL>, and : (Int, MODEL) -> (Boolean), use : (Context) -> (CellView<MODEL>)) : DeclarativeAdapter
     {
         val type=CellType<MODEL>()
         type.modelClass=clazz

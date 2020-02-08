@@ -13,7 +13,7 @@ allprojects {
 ```
 ```
 dependencies {
-    implementation('com.github.andob:DeclarativeAdapter-kt:1.1.2') {
+    implementation('com.github.andob:DeclarativeAdapter-kt:1.1.3') {
             exclude group: 'com.android.support'
             exclude group: 'org.jetbrains.kotlin'
         }

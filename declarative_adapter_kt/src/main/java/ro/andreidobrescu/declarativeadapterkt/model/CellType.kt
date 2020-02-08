@@ -3,12 +3,11 @@ package ro.andreidobrescu.declarativeadapterkt.model
 import android.content.Context
 import ro.andreidobrescu.declarativeadapterkt.view.CellView
 import java.lang.reflect.Method
-import kotlin.reflect.KClass
 
 class CellType<MODEL : Any>
 {
     var viewCreator : ((Context) -> (CellView<MODEL>))? = null
-    var modelClass : KClass<MODEL>? = null
+    var modelClass : Class<MODEL>? = null
     var extraChecker : ((Int, MODEL) -> (Boolean))? = null
     var viewModelBinderMethod : Method? = null
 
