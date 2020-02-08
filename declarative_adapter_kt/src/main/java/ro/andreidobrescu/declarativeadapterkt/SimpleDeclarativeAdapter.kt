@@ -8,7 +8,7 @@ import ro.andreidobrescu.declarativeadapterkt.model.ModelBinder
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 
-class SimpleDeclarativeAdapter<MODEL>
+open class SimpleDeclarativeAdapter<MODEL>
 (
     val viewCreator : (Context) -> (CellView<MODEL>)
 ) : BaseDeclarativeAdapter()
@@ -39,6 +39,8 @@ class SimpleDeclarativeAdapter<MODEL>
             try
             {
                 binderMethod?.invoke(cellView, model)
+
+                (cellView.context as? OnCellViewBindedListener)?.onCellViewBindedToModel(cellView, model)
             }
             catch (ex : Exception)
             {

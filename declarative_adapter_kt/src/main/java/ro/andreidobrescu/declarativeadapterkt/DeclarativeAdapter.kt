@@ -10,7 +10,7 @@ import ro.andreidobrescu.declarativeadapterkt.view.CellView
 import ro.andreidobrescu.declarativeadapterkt.model.ModelBinder
 import java.lang.reflect.InvocationTargetException
 
-class DeclarativeAdapter : BaseDeclarativeAdapter()
+open class DeclarativeAdapter : BaseDeclarativeAdapter()
 {
     interface ExceptionLogger
     {
@@ -74,6 +74,8 @@ class DeclarativeAdapter : BaseDeclarativeAdapter()
             try
             {
                 cellType.viewModelBinderMethod?.invoke(cellView, model)
+
+                (cellView.context as? OnCellViewBindedListener)?.onCellViewBindedToModel(cellView, model)
             }
             catch (ex : Exception)
             {
