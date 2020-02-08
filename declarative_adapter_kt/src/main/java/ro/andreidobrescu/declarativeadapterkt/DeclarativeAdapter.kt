@@ -5,6 +5,8 @@ import android.content.pm.ApplicationInfo
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import android.widget.Toast
+import ro.andreidobrescu.declarativeadapterkt.listeners.OnCellViewBindedListener
+import ro.andreidobrescu.declarativeadapterkt.listeners.OnCellViewInflatedListener
 import ro.andreidobrescu.declarativeadapterkt.model.CellType
 import ro.andreidobrescu.declarativeadapterkt.view.CellView
 import ro.andreidobrescu.declarativeadapterkt.model.ModelBinder
@@ -35,7 +37,7 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter()
         }
     }
 
-    val cellTypes : MutableList<CellType<*>> by lazy { mutableListOf<CellType<*>>() }
+    private val cellTypes : MutableList<CellType<*>> by lazy { mutableListOf<CellType<*>>() }
 
     override fun getItemViewType(position: Int): Int
     {
@@ -45,20 +47,22 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter()
             if (cellType.isModelApplicable(position, item))
                 return index
 
-        return 0
+        throw RuntimeException("Invalid adapter configuration!")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
     {
         val cellType=cellTypes[viewType]
-        val view=cellType.viewCreator?.invoke(parent.context)
-        view?.layoutParams=RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
-        val viewHolder=object : RecyclerView.ViewHolder(view!!) {}
+        val cellView=cellType.viewCreator!!.invoke(parent.context)
+        cellView.layoutParams=RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
+        val viewHolder=object : RecyclerView.ViewHolder(cellView) {}
 
         if (cellType.viewModelBinderMethod==null)
-            cellType.viewModelBinderMethod=view::class.java.declaredMethods.find { method ->
+            cellType.viewModelBinderMethod=cellView::class.java.declaredMethods.find { method ->
                 method.annotations.filterIsInstance<ModelBinder>().isNotEmpty()
             }
+
+        (cellView.context as? OnCellViewInflatedListener)?.onCellViewInflated(cellView)
 
         return viewHolder
     }

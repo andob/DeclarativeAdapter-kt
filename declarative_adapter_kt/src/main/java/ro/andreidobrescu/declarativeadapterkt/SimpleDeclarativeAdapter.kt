@@ -3,6 +3,8 @@ package ro.andreidobrescu.declarativeadapterkt
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
+import ro.andreidobrescu.declarativeadapterkt.listeners.OnCellViewBindedListener
+import ro.andreidobrescu.declarativeadapterkt.listeners.OnCellViewInflatedListener
 import ro.andreidobrescu.declarativeadapterkt.view.CellView
 import ro.andreidobrescu.declarativeadapterkt.model.ModelBinder
 import java.lang.reflect.InvocationTargetException
@@ -17,14 +19,16 @@ open class SimpleDeclarativeAdapter<MODEL>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
     {
-        val view=viewCreator(parent.context)
-        view.layoutParams=RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
-        val viewHolder=object : RecyclerView.ViewHolder(view) {}
+        val cellView=viewCreator(parent.context)
+        cellView.layoutParams=RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
+        val viewHolder=object : RecyclerView.ViewHolder(cellView) {}
 
         if (binderMethod==null)
-            binderMethod=view::class.java.declaredMethods.find { method ->
+            binderMethod=cellView::class.java.declaredMethods.find { method ->
                 method.annotations.filterIsInstance<ModelBinder>().isNotEmpty()
             }
+
+        (cellView.context as? OnCellViewInflatedListener)?.onCellViewInflated(cellView)
 
         return viewHolder
     }

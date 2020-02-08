@@ -1,4 +1,4 @@
-package ro.andreidobrescu.declarativeadapterkt;
+package ro.andreidobrescu.declarativeadapterkt.listeners;
 
 import ro.andreidobrescu.declarativeadapterkt.view.CellView;
 
