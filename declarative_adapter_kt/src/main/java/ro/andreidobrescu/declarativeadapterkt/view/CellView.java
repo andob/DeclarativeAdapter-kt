@@ -5,8 +5,12 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
 
+import ro.andreidobrescu.declarativeadapterkt.listeners.OnCellViewInflatedListener;
+
 public abstract class CellView<MODEL> extends RelativeLayout
 {
+    public static OnCellViewInflatedListener onCellViewInflatedListener;
+
     public CellView(Context context)
     {
         super(context);
@@ -40,6 +44,9 @@ public abstract class CellView<MODEL> extends RelativeLayout
     {
         LayoutInflater inflater=(LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(layout, this, true);
+
+        if (onCellViewInflatedListener!=null)
+            onCellViewInflatedListener.onCellViewInflated(this);
     }
 
     public abstract int layout();
