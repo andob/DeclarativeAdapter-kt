@@ -47,7 +47,7 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter()
             if (cellType.isModelApplicable(position, item))
                 return index
 
-        throw RuntimeException("Invalid adapter configuration!")
+        throw RuntimeException("Invalid adapter configuration! Item: $item, item type: ${item::class.java.simpleName}")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder

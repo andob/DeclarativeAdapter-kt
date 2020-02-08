@@ -15,7 +15,10 @@ class CellType<MODEL : Any>
     {
         try
         {
-            if (item::class.java==modelClass)
+            val itemType=item::class.java
+            if (itemType==modelClass!!||
+                itemType.superclass==modelClass!!||
+                modelClass!!.isAssignableFrom(itemType))
             {
                 if (extraChecker==null)
                     return true
