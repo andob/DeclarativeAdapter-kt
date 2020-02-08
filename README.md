@@ -13,7 +13,7 @@ allprojects {
 ```
 ```
 dependencies {
-    implementation 'com.github.andob:DeclarativeAdapter-kt:1.1.4'
+    implementation 'com.github.andob:DeclarativeAdapter-kt:1.1.5'
 }
 ```
 

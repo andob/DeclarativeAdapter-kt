@@ -15,7 +15,7 @@ class CellType<MODEL : Any>
     {
         try
         {
-            if (item::class==modelClass)
+            if (item::class.java==modelClass)
             {
                 if (extraChecker==null)
                     return true
