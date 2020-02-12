@@ -13,7 +13,7 @@ allprojects {
 ```
 ```
 dependencies {
-    implementation 'com.github.andob:DeclarativeAdapter-kt:1.1.9'
+    implementation 'com.github.andob:DeclarativeAdapter-kt:1.2.0'
 }
 ```
 
@@ -158,7 +158,7 @@ The ``SimpleDeclarativeAdapter`` / ``DeclarativeAdapter`` classes have the follo
 
 1. ``setItems(items: List<Any>)`` - sets the items and notifies data set changed
 2. ``addItems(items : List<Any>)`` - adds more items to the adapter's list and notified data set changed
-3. ``addItems(items : List<Any>, atIndex : Int)`` - inserts an item in the items list and notifies data set changed
+3. ``addItems(index : Int, items : List<Any>)`` - inserts an item in the items list and notifies data set changed
 4. ``clear()`` - clears the items from the list and notifies data set changed
 
 ### License

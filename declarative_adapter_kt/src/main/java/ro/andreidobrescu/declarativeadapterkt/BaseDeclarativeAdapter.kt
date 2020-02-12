@@ -8,26 +8,26 @@ abstract class BaseDeclarativeAdapter : RecyclerView.Adapter<RecyclerView.ViewHo
 
     override fun getItemCount(): Int = items.size
 
-    fun setItems(items: List<Any>)
+    open fun setItems(items: List<Any>)
     {
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
     }
 
-    fun addItems(items : List<Any>, atIndex : Int)
+    open fun addItems(index : Int, items : List<Any>)
     {
-        this.items.addAll(atIndex, items)
+        this.items.addAll(index, items)
         notifyDataSetChanged()
     }
 
-    fun addItems(items : List<Any>)
+    open fun addItems(items : List<Any>)
     {
         this.items.addAll(items)
         notifyDataSetChanged()
     }
 
-    fun clear()
+    open fun clear()
     {
         items.clear()
         notifyDataSetChanged()
