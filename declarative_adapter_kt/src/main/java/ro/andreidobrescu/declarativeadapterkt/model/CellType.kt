@@ -11,14 +11,11 @@ class CellType<MODEL : Any>
     var extraChecker : ((Int, MODEL) -> (Boolean))? = null
     var viewModelBinderMethod : Method? = null
 
-    fun isModelApplicable(index : Int, item : Any) : Boolean
+     fun isModelApplicable(index : Int, item : Any, classComparer : (Class<*>, Class<*>) -> (Boolean)) : Boolean
     {
         try
         {
-            val itemType=item::class.java
-            if (itemType==modelClass!!||
-                itemType.superclass==modelClass!!||
-                modelClass!!.isAssignableFrom(itemType))
+            if (classComparer(item::class.java, modelClass!!))
             {
                 if (extraChecker==null)
                     return true

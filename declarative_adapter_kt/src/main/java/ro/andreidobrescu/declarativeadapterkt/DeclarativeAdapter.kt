@@ -44,7 +44,16 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter()
         val item=items[position]
 
         for ((index, cellType) in cellTypes.withIndex())
-            if (cellType.isModelApplicable(position, item))
+            if (cellType.isModelApplicable(index = position, item = item,
+                classComparer = { itemType, targetType -> itemType==targetType }))
+                return index
+
+        for ((index, cellType) in cellTypes.withIndex())
+            if (cellType.isModelApplicable(index = position, item = item,
+                classComparer = { itemType, targetType ->
+                    itemType.superclass==targetType||
+                    targetType.isAssignableFrom(itemType)
+                }))
                 return index
 
         throw RuntimeException("Invalid adapter configuration! Item: $item, item type: ${item::class.java.simpleName}")
