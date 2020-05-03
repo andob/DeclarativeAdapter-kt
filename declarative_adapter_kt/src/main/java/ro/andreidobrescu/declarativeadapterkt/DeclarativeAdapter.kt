@@ -37,7 +37,7 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter()
         }
     }
 
-    private val cellTypes : MutableList<CellType<*>> by lazy { mutableListOf<CellType<*>>() }
+    val cellTypes = mutableListOf<CellType<*>>()
 
     override fun getItemViewType(position: Int): Int
     {

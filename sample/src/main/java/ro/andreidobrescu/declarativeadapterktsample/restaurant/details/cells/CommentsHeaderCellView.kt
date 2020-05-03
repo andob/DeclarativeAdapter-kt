@@ -1,11 +1,11 @@
 package ro.andreidobrescu.declarativeadapterktsample.restaurant.details.cells
 
 import android.content.Context
-import ro.andreidobrescu.declarativeadapterkt.view.CellView
+import ro.andreidobrescu.declarativeadapterkt.sticky_headers.StickyHeaderView
 import ro.andreidobrescu.declarativeadapterktsample.R
-import ro.andreidobrescu.declarativeadapterktsample.model.CommentsHeader
+import ro.andreidobrescu.declarativeadapterktsample.model.CommentsStickyHeader
 
-class CommentsHeaderCellView : CellView<CommentsHeader>
+class CommentsHeaderCellView : StickyHeaderView<CommentsStickyHeader>
 {
     constructor(context : Context?) : super(context)
 
