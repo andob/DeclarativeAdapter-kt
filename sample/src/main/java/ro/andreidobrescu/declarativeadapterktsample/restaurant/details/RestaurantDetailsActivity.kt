@@ -32,13 +32,13 @@ class RestaurantDetailsActivity : AppCompatActivity()
         
         val adapter=DeclarativeAdapter()
         
-        adapter.whenInstanceOf(Restaurant::class,
+        adapter.whenInstanceOf(Restaurant::class.java,
                     use = { RestaurantCellView(it) })
-                .whenInstanceOf(Receipe::class,
+                .whenInstanceOf(Receipe::class.java,
                     use = { ReceipeCellView(it) })
-                .whenInstanceOf(CommentsHeader::class,
+                .whenInstanceOf(CommentsHeader::class.java,
                     use = { CommentsHeaderCellView(it) })
-                .whenInstanceOf(Comment::class,
+                .whenInstanceOf(Comment::class.java,
                     and = { index, comment ->
                         comment.createdBy==User.loggedInUserId
                     },
@@ -49,7 +49,7 @@ class RestaurantDetailsActivity : AppCompatActivity()
                                 adapter.notifyDataSetChanged()
                             })
                     })
-                .whenInstanceOf(Comment::class,
+                .whenInstanceOf(Comment::class.java,
                     and = { index, comment ->
                         comment.createdBy!=User.loggedInUserId
                     },

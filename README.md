@@ -7,13 +7,13 @@
 ```
 allprojects {
     repositories {
-        maven { url 'https://jitpack.io' }
+        maven { url 'http://maven.andob.info/repository/open-source' }
     }
 }
 ```
 ```
 dependencies {
-    implementation 'com.github.andob:DeclarativeAdapter-kt:1.2.1'
+    implementation 'ro.andob.declarativeadapter:adapter-kt:1.2.2'
 }
 ```
 
@@ -95,13 +95,13 @@ adapter.setItems(provideRestaurants())
 ```kotlin
 val adapter=DeclarativeAdapter()
 
-adapter.whenInstanceOf(Restaurant::class,
+adapter.whenInstanceOf(Restaurant::class.java,
            use = { RestaurantCellView(it) })
-       .whenInstanceOf(Receipe::class,
+       .whenInstanceOf(Receipe::class.java,
            use = { ReceipeCellView(it) })
-       .whenInstanceOf(CommentsHeader::class,
+       .whenInstanceOf(CommentsHeader::class.java,
            use = { CommentsHeaderCellView(it) })
-       .whenInstanceOf(Comment::class,
+       .whenInstanceOf(Comment::class.java,
            and = { index, comment ->
                comment.createdBy==User.loggedInUserId
            },
@@ -112,7 +112,7 @@ adapter.whenInstanceOf(Restaurant::class,
                        adapter.notifyDataSetChanged()
                    })
            })
-       .whenInstanceOf(Comment::class,
+       .whenInstanceOf(Comment::class.java,
            and = { index, comment -> 
                comment.createdBy!=User.loggedInUserId
            },
