@@ -7,7 +7,7 @@
 ```
 allprojects {
     repositories {
-        maven { url 'http://maven.andob.info/repository/open-source' }
+        maven { url 'http://maven.andob.info/repository/open_source' }
     }
 }
 ```
