@@ -33,7 +33,7 @@ class StickyHeaderItemDecoration
             return null
         }
 
-        val items=(recyclerView.adapter as AdapterWithStickyHeaders).delegate.items
+        val items=(recyclerView.adapter as DeclarativeAdapterWithStickyHeaders).items
         val headerModel=items.findHeaderModel()
         if (headerModel!=null)
         {

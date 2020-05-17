@@ -37,7 +37,7 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter()
         }
     }
 
-    val cellTypes = mutableListOf<CellType<*>>()
+    protected val cellTypes = mutableListOf<CellType<*>>()
 
     override fun getItemViewType(position: Int): Int
     {

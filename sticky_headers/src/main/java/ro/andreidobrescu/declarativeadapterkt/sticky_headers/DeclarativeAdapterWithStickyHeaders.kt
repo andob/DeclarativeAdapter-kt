@@ -10,11 +10,10 @@ import ro.andreidobrescu.declarativeadapterkt.DeclarativeAdapter
 import ro.andreidobrescu.declarativeadapterkt.stickyheaders.R
 import ro.andreidobrescu.declarativeadapterkt.view.CellView
 
-class AdapterWithStickyHeaders
+class DeclarativeAdapterWithStickyHeaders
 (
-    recyclerView : RecyclerView,
-    val delegate : DeclarativeAdapter
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
+    recyclerView : RecyclerView
+) : DeclarativeAdapter()
 {
     init
     {
@@ -42,12 +41,12 @@ class AdapterWithStickyHeaders
 
     private fun getStickyHeaderDescriptors() : List<StickyHeaderDescriptor>
     {
-        return delegate.cellTypes
+        return cellTypes
             .filter { cellType ->
                 StickyHeaderModel::class.java.isAssignableFrom(cellType.modelClass as Class<*>)
             }
             .mapNotNull { cellType ->
-                val modelWithIndex=delegate.items.withIndex().find { (index, item) ->
+                val modelWithIndex=items.withIndex().find { (index, item) ->
                     item::class.java==cellType.modelClass
                 }?:return@mapNotNull null
 
@@ -59,12 +58,9 @@ class AdapterWithStickyHeaders
             }
     }
 
-    override fun getItemCount() = delegate.itemCount
-    override fun getItemViewType(position : Int) = delegate.getItemViewType(position)
-
     override fun onCreateViewHolder(parent : ViewGroup, viewType : Int) : RecyclerView.ViewHolder
     {
-        val viewHolder=delegate.onCreateViewHolder(parent, viewType)
+        val viewHolder=super.onCreateViewHolder(parent, viewType)
 
         viewHolder.itemView.viewTreeObserver.addOnDrawListener(object : ViewTreeObserver.OnDrawListener
         {
@@ -86,10 +82,5 @@ class AdapterWithStickyHeaders
         })
 
         return viewHolder
-    }
-
-    override fun onBindViewHolder(holder : RecyclerView.ViewHolder, position : Int)
-    {
-        delegate.onBindViewHolder(holder, position)
     }
 }

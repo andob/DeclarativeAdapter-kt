@@ -40,7 +40,7 @@ publishing {
                 from components.findByName("android${variant.name.capitalize()}")
                 groupId 'ro.andob.declarativeadapter'
                 artifactId 'adapter-kt'
-                version '1.2.3'
+                version '1.2.4'
             }
         }
     }

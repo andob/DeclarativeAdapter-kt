@@ -7,7 +7,7 @@ import com.michaelflisar.bundlebuilder.Arg
 import com.michaelflisar.bundlebuilder.BundleBuilder
 import kotlinx.android.synthetic.main.activity_restaurant_details.*
 import ro.andreidobrescu.declarativeadapterkt.DeclarativeAdapter
-import ro.andreidobrescu.declarativeadapterkt.sticky_headers.AdapterWithStickyHeaders
+import ro.andreidobrescu.declarativeadapterkt.sticky_headers.DeclarativeAdapterWithStickyHeaders
 import ro.andreidobrescu.declarativeadapterktsample.model.*
 import ro.andreidobrescu.declarativeadapterktsample.restaurant.details.cells.CommentCellView
 import ro.andreidobrescu.declarativeadapterktsample.restaurant.details.cells.CommentsHeaderCellView
@@ -31,8 +31,8 @@ class RestaurantDetailsActivity : AppCompatActivity()
         
         recyclerView.layoutManager=LinearLayoutManager(this)
         
-        val adapter=DeclarativeAdapter()
-        
+        val adapter=DeclarativeAdapterWithStickyHeaders(recyclerView)
+
         adapter.whenInstanceOf(Restaurant::class.java,
                     use = { RestaurantCellView(it) })
                 .whenInstanceOf(Receipe::class.java,
@@ -69,8 +69,7 @@ class RestaurantDetailsActivity : AppCompatActivity()
             items.addAll(restaurantDetails.comments)
         }
 
-//        recyclerView.adapter=adapter
-        recyclerView.adapter=AdapterWithStickyHeaders(recyclerView, adapter)
+        recyclerView.adapter=adapter
         adapter.setItems(items)
     }
 
