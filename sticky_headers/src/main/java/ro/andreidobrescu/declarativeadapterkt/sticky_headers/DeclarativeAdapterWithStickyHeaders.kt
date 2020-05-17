@@ -56,6 +56,9 @@ class DeclarativeAdapterWithStickyHeaders
                     index = modelWithIndex.index
                 )
             }
+            .sortedBy { stickyHeaderDescriptor ->
+                stickyHeaderDescriptor.index
+            }
     }
 
     override fun onCreateViewHolder(parent : ViewGroup, viewType : Int) : RecyclerView.ViewHolder
