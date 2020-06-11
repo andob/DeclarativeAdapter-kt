@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.michaelflisar.bundlebuilder.Arg
 import com.michaelflisar.bundlebuilder.BundleBuilder
-import kotlinx.android.synthetic.main.activity_restaurant_details.*
-import ro.andreidobrescu.declarativeadapterkt.DeclarativeAdapter
 import ro.andreidobrescu.declarativeadapterkt.sticky_headers.DeclarativeAdapterWithStickyHeaders
 import ro.andreidobrescu.declarativeadapterktsample.model.*
 import ro.andreidobrescu.declarativeadapterktsample.restaurant.details.cells.CommentCellView
@@ -15,6 +13,9 @@ import ro.andreidobrescu.declarativeadapterktsample.restaurant.details.cells.Rec
 import ro.andreidobrescu.declarativeadapterktsample.restaurant.details.cells.YourCommentCellView
 import ro.andreidobrescu.declarativeadapterktsample.restaurant.list.RestaurantCellView
 import ro.andreidobrescu.declarativeadapterktsample.R
+import ro.andreidobrescu.declarativeadapterktsample.databinding.ActivityRestaurantDetailsBinding
+import ro.andreidobrescu.viewbinding_compat.AutoViewBinding
+import ro.andreidobrescu.viewbinding_compat.ReflectiveViewBindingFieldSetter
 
 @BundleBuilder
 class RestaurantDetailsActivity : AppCompatActivity()
@@ -22,16 +23,20 @@ class RestaurantDetailsActivity : AppCompatActivity()
     @Arg
     lateinit var restaurant : Restaurant
 
+    @AutoViewBinding
+    lateinit var binding : ActivityRestaurantDetailsBinding
+
     override fun onCreate(savedInstanceState : Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_restaurant_details)
         RestaurantDetailsActivityBundleBuilder.inject(intent.extras, this)
-        setSupportActionBar(toolbar)
-        
-        recyclerView.layoutManager=LinearLayoutManager(this)
-        
-        val adapter=DeclarativeAdapterWithStickyHeaders(recyclerView)
+        ReflectiveViewBindingFieldSetter.setup(this)
+        setSupportActionBar(binding.toolbar)
+
+        binding.recyclerView.layoutManager=LinearLayoutManager(this)
+
+        val adapter=DeclarativeAdapterWithStickyHeaders(binding.recyclerView)
 
         adapter.whenInstanceOf(Restaurant::class.java,
                     use = { RestaurantCellView(it) })
@@ -57,19 +62,19 @@ class RestaurantDetailsActivity : AppCompatActivity()
                     use = { context ->
                         CommentCellView(context)
                     })
-        
+
         val restaurantDetails=provideRestaurantDetails()
         val items=mutableListOf<Any>()
         items.add(restaurantDetails.restaurant)
         items.addAll(restaurantDetails.receipes)
-        
+
         if (restaurantDetails.comments.isNotEmpty())
         {
             items.add(CommentsStickyHeader())
             items.addAll(restaurantDetails.comments)
         }
 
-        recyclerView.adapter=adapter
+        binding.recyclerView.adapter=adapter
         adapter.setItems(items)
     }
 

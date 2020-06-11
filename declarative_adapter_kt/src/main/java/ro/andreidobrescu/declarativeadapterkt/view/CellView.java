@@ -42,8 +42,7 @@ public abstract class CellView<MODEL> extends RelativeLayout
 
     private void inflateLayout(int layout)
     {
-        LayoutInflater inflater=(LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(layout, this, true);
+        LayoutInflater.from(getContext()).inflate(layout, this, true);
 
         if (onCellViewInflatedListener!=null)
             onCellViewInflatedListener.onCellViewInflated(this);

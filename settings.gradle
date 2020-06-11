@@ -1,2 +1,3 @@
 include ':sample', ':declarative_adapter_kt'
 include ':sticky_headers'
+include ':viewbinding_compat'

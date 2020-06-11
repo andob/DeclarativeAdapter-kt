@@ -2,15 +2,19 @@ package ro.andreidobrescu.declarativeadapterktsample.restaurant.list
 
 import android.content.Context
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.cell_restaurant.view.*
 import ro.andreidobrescu.declarativeadapterkt.view.CellView
 import ro.andreidobrescu.declarativeadapterkt.model.ModelBinder
 import ro.andreidobrescu.declarativeadapterktsample.R
+import ro.andreidobrescu.declarativeadapterktsample.databinding.CellRestaurantBinding
 import ro.andreidobrescu.declarativeadapterktsample.model.Restaurant
 import ro.andreidobrescu.declarativeadapterktsample.restaurant.details.RestaurantDetailsActivityBundleBuilder
+import ro.andreidobrescu.viewbinding_compat.AutoViewBinding
 
 class RestaurantCellView : CellView<Restaurant>
 {
+    @AutoViewBinding
+    lateinit var binding : CellRestaurantBinding
+
     constructor(context : Context?) : super(context)
 
     override fun layout() : Int = R.layout.cell_restaurant
@@ -19,17 +23,17 @@ class RestaurantCellView : CellView<Restaurant>
     fun setRestaurant(restaurant : Restaurant)
     {
         Picasso.get()
-                .load(restaurant.image)
-                .into(imageView)
+            .load(restaurant.image)
+            .into(binding.imageView)
 
-        nameLabel.text=restaurant.name
-        locationLabel.text=restaurant.location
-        ratingLabel.text="Rating: ${restaurant.rating}/5"
+        binding.nameLabel.text=restaurant.name
+        binding.locationLabel.text=restaurant.location
+        binding.ratingLabel.text="Rating: ${restaurant.rating}/5"
 
-        cell.setOnClickListener { view ->
+        binding.cell.setOnClickListener { view ->
             RestaurantDetailsActivityBundleBuilder()
-                    .restaurant(restaurant)
-                    .startActivity(view.context)
+                .restaurant(restaurant)
+                .startActivity(view.context)
         }
     }
 }

@@ -2,14 +2,18 @@ package ro.andreidobrescu.declarativeadapterktsample.restaurant.details.cells
 
 import android.content.Context
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.cell_receipe.view.*
 import ro.andreidobrescu.declarativeadapterkt.view.CellView
 import ro.andreidobrescu.declarativeadapterkt.model.ModelBinder
 import ro.andreidobrescu.declarativeadapterktsample.R
+import ro.andreidobrescu.declarativeadapterktsample.databinding.CellReceipeBinding
 import ro.andreidobrescu.declarativeadapterktsample.model.Receipe
+import ro.andreidobrescu.viewbinding_compat.AutoViewBinding
 
 class ReceipeCellView : CellView<Receipe>
 {
+    @AutoViewBinding
+    lateinit var binding : CellReceipeBinding
+
     constructor(context : Context?) : super(context)
 
     override fun layout() : Int = R.layout.cell_receipe
@@ -17,10 +21,11 @@ class ReceipeCellView : CellView<Receipe>
     @ModelBinder
     fun setReceipe(receipe : Receipe)
     {
+        //todo
         Picasso.get()
                 .load(receipe.image)
-                .into(imageView)
+                .into(binding.imageView)
 
-        nameLabel.text=receipe.name
+        binding.nameLabel.text=receipe.name
     }
 }

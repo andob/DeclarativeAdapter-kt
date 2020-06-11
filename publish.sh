@@ -9,5 +9,6 @@ echo "Publishing..."
 
 ./gradlew :declarative_adapter_kt:publish
 ./gradlew :sticky_headers:publish
+./gradlew :viewbinding_compat:publish
 
 set +o allexport

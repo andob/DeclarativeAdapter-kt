@@ -6,23 +6,24 @@ android {
     compileSdkVersion 29
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        consumerProguardFiles 'consumer-rules.pro'
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
-    implementation"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 publishing {
@@ -39,7 +40,7 @@ publishing {
             "maven${variant.name.capitalize()}Aar"(MavenPublication) {
                 from components.findByName("android${variant.name.capitalize()}")
                 groupId 'ro.andob.declarativeadapter'
-                artifactId 'adapter-kt'
+                artifactId 'viewbinding-compat'
                 version '1.2.9'
             }
         }

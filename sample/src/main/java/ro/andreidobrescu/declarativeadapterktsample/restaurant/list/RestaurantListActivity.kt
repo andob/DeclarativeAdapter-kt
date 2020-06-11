@@ -3,20 +3,26 @@ package ro.andreidobrescu.declarativeadapterktsample.restaurant.list
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_restaurant_list.*
 import ro.andreidobrescu.declarativeadapterkt.SimpleDeclarativeAdapter
 import ro.andreidobrescu.declarativeadapterktsample.R
+import ro.andreidobrescu.declarativeadapterktsample.databinding.ActivityRestaurantListBinding
 import ro.andreidobrescu.declarativeadapterktsample.model.Restaurant
+import ro.andreidobrescu.viewbinding_compat.AutoViewBinding
+import ro.andreidobrescu.viewbinding_compat.ReflectiveViewBindingFieldSetter
 
 class RestaurantListActivity : AppCompatActivity()
 {
+    @AutoViewBinding
+    lateinit var binding : ActivityRestaurantListBinding
+
     override fun onCreate(savedInstanceState : Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_restaurant_list)
-        setSupportActionBar(toolbar)
+        ReflectiveViewBindingFieldSetter.setup(this)
+        setSupportActionBar(binding.toolbar)
 
-        recyclerView.layoutManager=LinearLayoutManager(this)
+        binding.recyclerView.layoutManager=LinearLayoutManager(this)
 
         //by default, if you build the app for debug, the exception gets logged to logcat and as a toast
         //to replace the default exception logger, use this
@@ -29,7 +35,7 @@ class RestaurantListActivity : AppCompatActivity()
 //        }
 
         val adapter=SimpleDeclarativeAdapter { RestaurantCellView(it) }
-        recyclerView.adapter=adapter
+        binding.recyclerView.adapter=adapter
         adapter.setItems(provideRestaurants())
     }
 
