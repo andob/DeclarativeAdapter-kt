@@ -24,6 +24,8 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation project(":declarative_adapter_kt")
 }
 
 publishing {
@@ -41,7 +43,7 @@ publishing {
                 from components.findByName("android${variant.name.capitalize()}")
                 groupId 'ro.andob.declarativeadapter'
                 artifactId 'viewbinding-compat'
-                version '1.2.9'
+                version '1.2.9.5'
             }
         }
     }
