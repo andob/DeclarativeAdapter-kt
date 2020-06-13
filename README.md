@@ -47,7 +47,7 @@ class RestaurantCellView : CellView<Restaurant>
     override fun layout() : Int = R.layout.cell_restaurant
     
     @ModelBinder
-    override fun setRestaurant(restaurant : Restaurant)
+    fun setRestaurant(restaurant : Restaurant)
     {
         Glide.with(context)
                 .load(restaurant.image)
@@ -94,8 +94,7 @@ adapter.setItems(provideRestaurants())
 
 ```kotlin
 val adapter=DeclarativeAdapter()
-
-adapter.whenInstanceOf(Restaurant::class.java,
+       .whenInstanceOf(Restaurant::class.java,
            use = { RestaurantCellView(it) })
        .whenInstanceOf(Receipe::class.java,
            use = { ReceipeCellView(it) })
@@ -160,6 +159,8 @@ The ``SimpleDeclarativeAdapter`` / ``DeclarativeAdapter`` classes have the follo
 2. ``addItems(items : List<Any>)`` - adds more items to the adapter's list and notified data set changed
 3. ``addItems(index : Int, items : List<Any>)`` - inserts an item in the items list and notifies data set changed
 4. ``clear()`` - clears the items from the list and notifies data set changed
+
+### [More features](https://github.com/andob/DeclarativeAdapter-kt/blob/master/MORE_FEATURES.md)
 
 ### License
 
