@@ -73,7 +73,7 @@ class AdminCarsListActivity : BaseListActivity<Car>()
 }
 ```
 
-So, there are lots of common logic inside ``CarCellView`` and splitting it into two classes, ``PreviewCarCellView`` and ``EditableCarCellView`` would mean lots of code duplication. A solution would be to pass a ``isPreviewModeEnabled`` flag. But this flag adds verbosity and noise. A better solution would be to use Aspect Oriented Programming principles: on ``PreviewCarsListActivity`` implement the ``OnCellViewBindedListener`` and hide the edit button in the listener method. Thus, the listener method will behave like an aspect targeting the cell view:
+So, there are lots of logic inside ``CarCellView`` and splitting it into two classes, ``PreviewCarCellView`` and ``EditableCarCellView`` would mean lots of code duplication. A solution would be to pass a ``isPreviewModeEnabled`` flag. But this flag adds verbosity and noise. A better solution would be to use Aspect Oriented Programming principles: on ``PreviewCarsListActivity`` implement the ``OnCellViewBindedListener`` and hide the edit button in the listener method. Thus, the listener method will behave like an aspect targeting the cell view:
 
 ```kotlin
 class CarCellView : CellView<Car>
@@ -97,14 +97,12 @@ class PreviewCarsListActivity : BaseListActivity<Car>(), OnCellViewBindedListene
     override fun onCreate(savedInstanceState : Bundle?)
     {
         super.onCreate(savedInstanceState)
-        recyclerView.adapter=SimpleDeclarativeAdapter { context -> 
-            CarCellView(context, isPreviewModeEnabled = true)
-        }
+        recyclerView.adapter=SimpleDeclarativeAdapter { CarCellView(it) }
     }
     
     override fun onCellViewBindedToModel(cellView : CellView<*>, model : Any?)
     {
-        if (cellView is CarCellView && model is Car)
+        if (cellView is CarCellView&&model is Car)
             cellView.editButton.visibility=View.GONE
     }
 }
@@ -116,9 +114,7 @@ class AdminCarsListActivity : BaseListActivity<Car>()
     override fun onCreate(savedInstanceState : Bundle?)
     {
         super.onCreate(savedInstanceState)
-        recyclerView.adapter=SimpleDeclarativeAdapter { context -> 
-            CarCellView(context, isPreviewModeEnabled = false)
-        }
+        recyclerView.adapter=SimpleDeclarativeAdapter { CarCellView(it) }
     }
 }
 ```
@@ -147,7 +143,7 @@ new DeclarativeAdapter()
             (context) -> new ReceipeCellView(context));
 ```
 
-On Java, please use the Builders:
+On Java, please use the Builders API:
 
 ```java
 new DeclarativeAdapter()
@@ -197,6 +193,7 @@ class YouTubeVideoCellView : CellView { ... }
 class CommentsStickyHeaderView : StickyHeaderView { ... }
 class CommentCellView : CellView { ... }
 //implement layout() and @ModelBinder methods
+//the StickyHeaderView class extends CellView
 ```
 
 Adapter definition:
@@ -236,7 +233,7 @@ dependencies {
 }
 ```
 
-Define your CellViews using the same API (layout() / @ModelBinder). To link the binding object, use the ``@AutoViewBinding`` annotation:
+Define your CellViews using the same API (``layout()`` / ``@ModelBinder``). To link the view binding object, use the ``@AutoViewBinding`` annotation:
 
 ```kotlin
 class RestaurantCellView : CellView<Restaurant>
@@ -354,4 +351,4 @@ class MainMenuFragment : BaseFragment()
 }
 ```
 
-Downside: The ``ReflectiveViewBindingFieldSetter`` class uses reflection magic in order to find and set fields annotated with ``@AutoViewBinding``. It also uses a cache in order to make the minimum reflection calls possible. But, if performance is still a problem in 2020, reflection magic could be migrated to annotation processor / code generation magic. Pull requests are welcomed.
+Downside: The ``ReflectiveViewBindingFieldSetter`` class uses reflection magic in order to find and set fields annotated with ``@AutoViewBinding``. It also uses a cache in order to make the minimum reflection calls possible. The method annotated with ``@ModelBinder`` from the objects that inherit ``CellView`` is also invoked via reflection + a cache. If performance is still a problem IN 2020, reflection magic could be migrated to annotation processor / code generation magic. Pull requests are welcomed.
