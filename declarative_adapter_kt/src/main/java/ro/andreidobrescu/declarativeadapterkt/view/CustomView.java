@@ -12,11 +12,6 @@ public abstract class CustomView extends CellView<Unit>
         super(context);
     }
 
-    public CustomView(Context context, int layout)
-    {
-        super(context, layout);
-    }
-
     public CustomView(Context context, AttributeSet attrs)
     {
         super(context, attrs);

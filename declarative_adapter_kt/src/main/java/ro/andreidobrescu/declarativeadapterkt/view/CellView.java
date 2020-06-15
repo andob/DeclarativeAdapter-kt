@@ -17,12 +17,6 @@ public abstract class CellView<MODEL> extends RelativeLayout
         inflateLayout(layout());
     }
 
-    public CellView(Context context, int layout)
-    {
-        super(context);
-        inflateLayout(layout);
-    }
-
     public CellView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
