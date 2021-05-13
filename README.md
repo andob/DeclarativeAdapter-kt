@@ -19,7 +19,7 @@ dependencies {
 
 ### Creating a simple Adapter with one single cell type.
 
-<img src="https://raw.githubusercontent.com/andob/DeclarativeAdapter/master/SimpleDeclarativeAdapter.png" align="left" height="300" >
+<img src="https://raw.githubusercontent.com/andob/DeclarativeAdapter-kt/master/SimpleDeclarativeAdapter.png" align="left" height="300" >
 
 #### 1. Let's say you have a model class:
 
@@ -134,7 +134,7 @@ recyclerView.adapter=adapter
 adapter.setItems(items)
 ```
 
-<img src="https://raw.githubusercontent.com/andob/DeclarativeAdapter/master/DeclarativeAdapter.png" align="left" width="100%">
+<img src="https://raw.githubusercontent.com/andob/DeclarativeAdapter-kt/master/DeclarativeAdapter.png" align="left" width="100%">
 
 
 The adapter is created in a declarative fashion, using lambda expressions. A list of items will be used by the adapter, containing the restaurant, receipes, comments header and comments. All these model objects will be transformed into cell views (see the picture above).
