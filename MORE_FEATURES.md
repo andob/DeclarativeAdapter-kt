@@ -11,7 +11,7 @@ class App : Application()
     {
         super.onCreate()
 
-        CellView.onCellViewInflatedListener=OnCellViewInflatedListener { cellView ->
+        CellView.onCellViewInflatedListener = OnCellViewInflatedListener { cellView ->
             ButterKnife.bind(cellView, cellView)
         }
     }
@@ -41,8 +41,8 @@ class CarCellView
         //lots of logic
         
         if (isPreviewModeEnabled)
-            editButton.visibility=View.GONE
-        else editButton.visibility=View.VISIBLE
+            editButton.visibility = View.GONE
+        else editButton.visibility = View.VISIBLE
     }
 }
 ```
@@ -53,7 +53,7 @@ class PreviewCarsListActivity : BaseListActivity<Car>()
     override fun onCreate(savedInstanceState : Bundle?)
     {
         super.onCreate(savedInstanceState)
-        recyclerView.adapter=SimpleDeclarativeAdapter { context -> 
+        recyclerView.adapter = SimpleDeclarativeAdapter { context -> 
             CarCellView(context, isPreviewModeEnabled = true)
         }
     }
@@ -66,7 +66,7 @@ class AdminCarsListActivity : BaseListActivity<Car>()
     override fun onCreate(savedInstanceState : Bundle?)
     {
         super.onCreate(savedInstanceState)
-        recyclerView.adapter=SimpleDeclarativeAdapter { context -> 
+        recyclerView.adapter = SimpleDeclarativeAdapter { context -> 
             CarCellView(context, isPreviewModeEnabled = false)
         }
     }
@@ -97,13 +97,13 @@ class PreviewCarsListActivity : BaseListActivity<Car>(), OnCellViewBindedListene
     override fun onCreate(savedInstanceState : Bundle?)
     {
         super.onCreate(savedInstanceState)
-        recyclerView.adapter=SimpleDeclarativeAdapter { CarCellView(it) }
+        recyclerView.adapter = SimpleDeclarativeAdapter { CarCellView(it) }
     }
     
     override fun onCellViewBindedToModel(cellView : CellView<*>, model : Any?)
     {
-        if (cellView is CarCellView&&model is Car)
-            cellView.editButton.visibility=View.GONE
+        if (cellView is CarCellView && model is Car)
+            cellView.editButton.visibility = View.GONE
     }
 }
 ```
@@ -114,7 +114,7 @@ class AdminCarsListActivity : BaseListActivity<Car>()
     override fun onCreate(savedInstanceState : Bundle?)
     {
         super.onCreate(savedInstanceState)
-        recyclerView.adapter=SimpleDeclarativeAdapter { CarCellView(it) }
+        recyclerView.adapter = SimpleDeclarativeAdapter { CarCellView(it) }
     }
 }
 ```
@@ -124,7 +124,7 @@ class AdminCarsListActivity : BaseListActivity<Car>()
 Since I use this library in projects with huge Java codebases, the library API is Java-friendly. For instance:
 
 ```kotlin
-val adapter=DeclarativeAdapter()
+val adapter = DeclarativeAdapter()
        .whenInstanceOf(Restaurant::class.java,
            and = { index, restaurant -> index==0 },
            use = { RestaurantCellView(it) })
@@ -199,7 +199,7 @@ class CommentCellView : CellView { ... }
 Adapter definition:
 
 ```kotlin
-val adapter=DeclarativeAdapterWithStickyHeaders()
+val adapter = DeclarativeAdapterWithStickyHeaders()
     .whenInstanceOf(YouTubeVideo::class.java,
         use = { YouTubeVideoCellView(it) })
     .whenInstanceOf(CommentsStickyHeader::class.java,
@@ -207,12 +207,12 @@ val adapter=DeclarativeAdapterWithStickyHeaders()
     .whenInstanceOf(Comment::class.java,
         use = { CommentCellView(it) })
 
-val listItems=mutableListOf()
+val listItems = mutableListOf()
 listItems.add(youTubeVideo)
 listItems.add(CommentsStickyHeader())
 listItems.addAll(youTubeVideoComments)
 
-recyclerView.adapter=adapter        
+recyclerView.adapter = adapter        
 ```
 
 ### ViewBinding compatibility module <a name="viewbinding"></a>
@@ -240,16 +240,15 @@ class RestaurantCellView : CellView<Restaurant>
 {
     @AutoViewBinding
     lateinit var binding : CellRestaurantBinding
-
-    constructor(context : Context?) : super(context)
-
     override fun layout() : Int = R.layout.cell_restaurant
+    
+    constructor(context : Context?) : super(context)
 
     @ModelBinder
     fun setRestaurant(restaurant : Restaurant)
     {
-        binding.nameLabel.text=restaurant.name
-        binding.locationLabel.text=restaurant.location
+        binding.nameLabel.text = restaurant.name
+        binding.locationLabel.text = restaurant.location
     }
 }
 ```
@@ -263,14 +262,14 @@ class App : Application()
     {
         super.onCreate()
 
-        CellView.onCellViewInflatedListener=OnCellViewInflatedListener { cellView ->
+        CellView.onCellViewInflatedListener = OnCellViewInflatedListener { cellView ->
             ReflectiveViewBindingFieldSetter.setup(cellView)
         }
     }
 }
 ```
 
-``ReflectiveViewBindingFieldSetter`` is a class that finds the fields annotated with ``AutoViewBinding`` inside an object and instantiates and assigns the view binding object to the field. Its API is similar to ButterKnife's (because ButterKnife is, unfortunately, deprecated, and having a similar API will ease the migration):
+``ReflectiveViewBindingFieldSetter`` is a class that finds the fields annotated with ``AutoViewBinding`` inside an object and instantiates and assigns the view binding object to the field. Its API is similar to ButterKnife's (because ButterKnife is, unfortunately, deprecated, and having a similar API helped me ease the migration):
 
 ```kotlin
 //from an activity, to initialize @AutoViewBinding fields:
@@ -313,7 +312,7 @@ class MainActivity : BaseActivity()
     override fun onCreate(savedInstanceState : Bundle?)
     {
         super.onCreate(savedInstanceState)
-        binding.someTextView=""
+        binding.someTextView = ""
     }
 }
 ```
@@ -325,7 +324,7 @@ abstract class BaseFragment : Fragment()
     
     override fun onCreateView(inflater : LayoutInflater, container : ViewGroup, savedInstanceState : Bundle) : View
     {
-        val view=inflater.inflate(layout(), container, false)
+        val view = inflater.inflate(layout(), container, false)
         ReflectiveViewBindingFieldSetter.setup(this, view)
         //more logic
     }
@@ -344,11 +343,11 @@ class MainMenuFragment : BaseFragment()
     
     override fun onCreateView(inflater : LayoutInflater, container : ViewGroup, savedInstanceState : Bundle) : View
     {
-        val view=super.onCreateView(inflater, container, savedInstanceState)
-        binding.someTextView="";
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+        binding.someTextView = "";
         return view
     }
 }
 ```
 
-Downside: The ``ReflectiveViewBindingFieldSetter`` class uses reflection magic in order to find and set fields annotated with ``@AutoViewBinding``. It also uses a cache in order to make the minimum reflection calls possible. The method annotated with ``@ModelBinder`` from the objects that inherit ``CellView`` is also invoked via reflection + a cache. If performance is still a problem IN 2020, reflection magic could be migrated to annotation processor / code generation magic. Pull requests are welcomed.
+Downside: The ``ReflectiveViewBindingFieldSetter`` class uses reflection magic in order to find and set fields annotated with ``@AutoViewBinding``. It also uses a cache in order to make the minimum reflection calls possible. Also the method annotated with ``@ModelBinder`` from the objects that inherit ``CellView`` is invoked via reflection + a cache. If performance is still a problem IN 2020, reflection magic could be migrated to annotation processor / code generation magic.

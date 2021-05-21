@@ -37,7 +37,7 @@ class Restaurant
 
 Override the ``layout`` method the you specify the layout id used for your cell.
 
-Declare a method annotated with ``ModelBinder``. In this method, bind your model to the views, setup event listeners, etc. Your row will be decoupled from the Activity / Fragment, thus in order to communicate with the activity, you can send events to it (either by using EventBus or by declaring custom event listeners like I did [here](https://github.com/andob/DeclarativeAdapter-kt/blob/master/sample/src/main/java/ro/andreidobrescu/declarativeadapterkt/restaurant/details/cells/YourCommentCellView.kt)).
+Declare a method annotated with ``ModelBinder``. In this method, bind your model to the views, setup event listeners, etc. Your row will be decoupled from the Activity / Fragment.
 
 ```kotlin
 class RestaurantCellView : CellView<Restaurant>
@@ -53,9 +53,9 @@ class RestaurantCellView : CellView<Restaurant>
                 .load(restaurant.image)
                 .into(imageView)
 
-        nameTextView.text=restaurant.name;
-        locationTextView.text=restaurant.location;
-        ratingTextView.text="Rating: ${restaurant.rating}/5";
+        nameTextView.text = restaurant.name;
+        locationTextView.text = restaurant.location;
+        ratingTextView.text = "Rating: ${restaurant.rating}/5";
 
         cell.setOnClickListener { view ->
             RestaurantDetailsActivityBundleBuilder()
@@ -81,8 +81,8 @@ Please check that the root element of the layout has height=wrap content, otherw
 #### 4. In your activity / fragment, create the adapter:
 
 ```kotlin
-val adapter=SimpleDeclarativeAdapter { RestaurantCellView(it) }
-recyclerView.adapter=adapter
+val adapter = SimpleDeclarativeAdapter { RestaurantCellView(it) }
+recyclerView.adapter = adapter
 adapter.setItems(provideRestaurants())
 ```
 
@@ -93,7 +93,7 @@ adapter.setItems(provideRestaurants())
 #### 4. In your activity / fragment, create the adapter:
 
 ```kotlin
-val adapter=DeclarativeAdapter()
+val adapter = DeclarativeAdapter()
        .whenInstanceOf(Restaurant::class.java,
            use = { RestaurantCellView(it) })
        .whenInstanceOf(Receipe::class.java,
@@ -101,26 +101,14 @@ val adapter=DeclarativeAdapter()
        .whenInstanceOf(CommentsHeader::class.java,
            use = { CommentsHeaderCellView(it) })
        .whenInstanceOf(Comment::class.java,
-           and = { index, comment ->
-               comment.createdBy==User.loggedInUserId
-           },
-           use = { context ->
-               YourCommentCellView(context,
-                   onDeleteListener = { comment ->
-                       adapter.items.remove(comment)
-                       adapter.notifyDataSetChanged()
-                   })
-           })
+           and = { index, comment -> comment.createdBy == User.loggedInUserId },
+           use = { YourCommentCellView(it) })
        .whenInstanceOf(Comment::class.java,
-           and = { index, comment -> 
-               comment.createdBy!=User.loggedInUserId
-           },
-           use = { context ->
-               CommentCellView(context)
-           })
+           and = { index, comment -> comment.createdBy != User.loggedInUserId },
+           use = { context -> CommentCellView(context) })
 
-val restaurantDetails=provideRestaurantDetails()
-val items=mutableListOf<Any>()
+val restaurantDetails = provideRestaurantDetails()
+val items = mutableListOf<Any>()
 items.add(restaurantDetails.restaurant)
 items.addAll(restaurantDetails.receipes)
 
@@ -130,7 +118,7 @@ if (restaurantDetails.comments.isNotEmpty())
     items.addAll(restaurantDetails.comments)
 }
 
-recyclerView.adapter=adapter
+recyclerView.adapter = adapter
 adapter.setItems(items)
 ```
 
@@ -145,7 +133,7 @@ All the rules defined must cover all the possible usages (for each element in th
 
 ### Why DeclarativeAdapter-kt?
 
-1. Single responsibility principle: all the cell view classes have one and only single role.
+1. Single responsibility principle: all the cell view classes will have one single role.
 2. Decouples your row logic from activities and fragments
 3. Never write an adapter class again!
 4. No more boring, unmaintainable boilerplate code!
@@ -165,7 +153,7 @@ The ``SimpleDeclarativeAdapter`` / ``DeclarativeAdapter`` classes have the follo
 ### License
 
 ```kotlin
-Copyright 2018-2020 Andrei Dobrescu
+Copyright 2018-2021 Andrei Dobrescu
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
