@@ -1,8 +1,7 @@
 package ro.andreidobrescu.declarativeadapterktsample
 
 import android.app.Application
-import ro.andreidobrescu.declarativeadapterkt.listeners.OnCellViewInflatedListener
-import ro.andreidobrescu.declarativeadapterkt.view.CellView
+import ro.andreidobrescu.declarativeadapterkt.listeners.CellViewGlobalEvents
 import ro.andreidobrescu.viewbinding_compat.ReflectiveViewBindingFieldSetter
 
 class App : Application()
@@ -11,8 +10,12 @@ class App : Application()
     {
         super.onCreate()
 
-        CellView.onCellViewInflatedListener=OnCellViewInflatedListener { cellView ->
+        CellViewGlobalEvents.setOnCellViewInflatedListener { cellView ->
             ReflectiveViewBindingFieldSetter.setup(cellView)
+        }
+
+        CellViewGlobalEvents.setOnCellViewBindedListener { cellView, model ->
+
         }
     }
 }

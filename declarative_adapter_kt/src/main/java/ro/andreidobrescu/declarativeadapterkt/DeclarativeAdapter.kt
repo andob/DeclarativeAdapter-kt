@@ -5,7 +5,7 @@ import android.content.pm.ApplicationInfo
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import android.widget.Toast
-import ro.andreidobrescu.declarativeadapterkt.listeners.OnCellViewBindedListener
+import ro.andreidobrescu.declarativeadapterkt.listeners.CellViewGlobalEvents
 import ro.andreidobrescu.declarativeadapterkt.listeners.OnCellViewInflatedListener
 import ro.andreidobrescu.declarativeadapterkt.model.CellType
 import ro.andreidobrescu.declarativeadapterkt.view.CellView
@@ -88,7 +88,8 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter()
             {
                 cellType.viewModelBinderMethod?.invoke(cellView, model)
 
-                (cellView.context as? OnCellViewBindedListener)?.onCellViewBindedToModel(cellView, model)
+                CellViewGlobalEvents.getOnCellViewBindedListener()
+                    ?.onCellViewBindedToModel(cellView, model)
             }
             catch (ex : Exception)
             {

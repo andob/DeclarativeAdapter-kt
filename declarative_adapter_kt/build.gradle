@@ -39,7 +39,7 @@ project.afterEvaluate {
             maven(MavenPublication) {
                 groupId 'ro.andob.declarativeadapter'
                 artifactId 'adapter-kt'
-                version '1.2.9.7'
+                version '1.2.9.8'
                 artifact(bundleReleaseAar)
             }
         }

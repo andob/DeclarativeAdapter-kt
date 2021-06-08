@@ -1,8 +1,8 @@
 # More features:
 
-### Global cell view inflated event listener
+### Global cell view inflated / binded event listeners
 
-The application class can subscribe to a global cell view inflated event. This event is notified each time a cell view is inflated (after the inflation). This can be useful if you want to integrate boilerplate-removal libraries such as ButterKnife or ViewBinding.
+The application class can subscribe to global cell view inflated / binded events:
 
 ```kotlin
 class App : Application()
@@ -11,113 +11,18 @@ class App : Application()
     {
         super.onCreate()
 
-        CellView.onCellViewInflatedListener = OnCellViewInflatedListener { cellView ->
-            ButterKnife.bind(cellView, cellView)
+        CellViewGlobalEvents.setOnCellViewInflatedListener { cellView ->
+            ReflectiveViewBindingFieldSetter.setup(cellView)
+        }
+        
+        CellViewGlobalEvents.setOnCellViewBindedListener { cellView, model -> 
+            
         }
     }
 }
 ```
 
 [!!! For ViewBinding integration tutorial, please check out the "ViewBinding compatibility module" section below.](#viewbinding)
-
-### Context-scoped cell view binded event listener
-
-The current activity context can subscribe to cell view bind events. These events are notified each time a cell view is binded to a model (after the bind). To subscribe to these events, all you have to do is let your activity implement the ``OnCellViewBindedListener`` interface.
-
-Example: how can this be useful in a real project? Consider the following use case:
-
-```kotlin
-class CarCellView
-(
-    context : Context,
-    val isPreviewModeEnabled : Boolean
-) : CellView<Car>(context)
-{
-    override fun layout() = R.layout.cell_car
-    
-    @ModelBinder
-    fun setCar(car : Car)
-    {
-        //lots of logic
-        
-        if (isPreviewModeEnabled)
-            editButton.visibility = View.GONE
-        else editButton.visibility = View.VISIBLE
-    }
-}
-```
-
-```kotlin
-class PreviewCarsListActivity : BaseListActivity<Car>()
-{
-    override fun onCreate(savedInstanceState : Bundle?)
-    {
-        super.onCreate(savedInstanceState)
-        recyclerView.adapter = SimpleDeclarativeAdapter { context -> 
-            CarCellView(context, isPreviewModeEnabled = true)
-        }
-    }
-}
-```
-
-```kotlin
-class AdminCarsListActivity : BaseListActivity<Car>()
-{
-    override fun onCreate(savedInstanceState : Bundle?)
-    {
-        super.onCreate(savedInstanceState)
-        recyclerView.adapter = SimpleDeclarativeAdapter { context -> 
-            CarCellView(context, isPreviewModeEnabled = false)
-        }
-    }
-}
-```
-
-So, there are lots of logic inside ``CarCellView`` and splitting it into two classes, ``PreviewCarCellView`` and ``EditableCarCellView`` would mean lots of code duplication. A solution would be to pass a ``isPreviewModeEnabled`` flag. But this flag adds verbosity and noise. A better solution would be to use Aspect Oriented Programming principles: on ``PreviewCarsListActivity`` implement the ``OnCellViewBindedListener`` and hide the edit button in the listener method. Thus, the listener method will behave like an aspect targeting the cell view:
-
-```kotlin
-class CarCellView : CellView<Car>
-{
-    constructor(context : Context) : super(context)
-    
-    override fun layout() = R.layout.cell_car
-    
-    @ModelBinder
-    fun setCar(car : Car)
-    {
-        //lots of logic
-        //editButton is visible by default
-    }
-}
-```
-
-```kotlin
-class PreviewCarsListActivity : BaseListActivity<Car>(), OnCellViewBindedListener
-{
-    override fun onCreate(savedInstanceState : Bundle?)
-    {
-        super.onCreate(savedInstanceState)
-        recyclerView.adapter = SimpleDeclarativeAdapter { CarCellView(it) }
-    }
-    
-    override fun onCellViewBindedToModel(cellView : CellView<*>, model : Any?)
-    {
-        if (cellView is CarCellView && model is Car)
-            cellView.editButton.visibility = View.GONE
-    }
-}
-```
-
-```kotlin
-class AdminCarsListActivity : BaseListActivity<Car>()
-{
-    override fun onCreate(savedInstanceState : Bundle?)
-    {
-        super.onCreate(savedInstanceState)
-        recyclerView.adapter = SimpleDeclarativeAdapter { CarCellView(it) }
-    }
-}
-```
 
 ### 100% Java friendly API
 
@@ -173,8 +78,8 @@ allprojects {
 ```
 ```
 dependencies {
-    implementation 'ro.andob.declarativeadapter:adapter-kt:1.2.9.7'
-    implementation 'ro.andob.declarativeadapter:sticky-headers:1.2.9.7'
+    implementation 'ro.andob.declarativeadapter:adapter-kt:1.2.9.8'
+    implementation 'ro.andob.declarativeadapter:sticky-headers:1.2.9.8'
 }
 ```
 
@@ -228,8 +133,8 @@ allprojects {
 ```
 ```
 dependencies {
-    implementation 'ro.andob.declarativeadapter:adapter-kt:1.2.9.7'
-    implementation 'ro.andob.declarativeadapter:viewbinding-compat:1.2.9.7'
+    implementation 'ro.andob.declarativeadapter:adapter-kt:1.2.9.8'
+    implementation 'ro.andob.declarativeadapter:viewbinding-compat:1.2.9.8'
 }
 ```
 
@@ -262,7 +167,7 @@ class App : Application()
     {
         super.onCreate()
 
-        CellView.onCellViewInflatedListener = OnCellViewInflatedListener { cellView ->
+        CellViewGlobalEvents.setOnCellViewInflatedListener { cellView ->
             ReflectiveViewBindingFieldSetter.setup(cellView)
         }
     }
