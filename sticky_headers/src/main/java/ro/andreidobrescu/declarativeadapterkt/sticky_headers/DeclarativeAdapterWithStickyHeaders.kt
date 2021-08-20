@@ -2,6 +2,7 @@ package ro.andreidobrescu.declarativeadapterkt.sticky_headers
 
 import android.content.Context
 import android.os.Handler
+import android.os.Looper
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.recyclerview.widget.RecyclerView
@@ -78,7 +79,7 @@ class DeclarativeAdapterWithStickyHeaders
                     viewHolder.itemView.layoutParams=params
                 }
 
-                Handler().post {
+                Handler(Looper.getMainLooper()).post {
                     viewHolder.itemView.viewTreeObserver.removeOnDrawListener(this)
                 }
             }
