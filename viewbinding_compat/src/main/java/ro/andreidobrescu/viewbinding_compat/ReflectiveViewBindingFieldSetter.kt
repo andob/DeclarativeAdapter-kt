@@ -2,9 +2,7 @@ package ro.andreidobrescu.viewbinding_compat
 
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.*
 import ro.andreidobrescu.declarativeadapterkt.view.CellView
 import java.lang.reflect.Field
 import java.lang.reflect.Method
@@ -58,12 +56,12 @@ object ReflectiveViewBindingFieldSetter
 
                 viewBindingField.set(target, viewBinding)
 
-                view.getActivity().lifecycle.addObserver(object : LifecycleObserver
+                view.getActivity().lifecycle.addObserver(object : LifecycleEventObserver
                 {
-                    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-                    fun onActivityDestoryed()
+                    override fun onStateChanged(source : LifecycleOwner, event : Lifecycle.Event)
                     {
-                        viewBindingField.set(target, null)
+                        if (event==Lifecycle.Event.ON_DESTROY)
+                            viewBindingField.set(target, null)
                     }
                 })
             }
