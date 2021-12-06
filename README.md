@@ -13,7 +13,7 @@ allprojects {
 ```
 ```
 dependencies {
-    implementation 'ro.andob.declarativeadapter:adapter-kt:1.3.0.1'
+    implementation 'ro.andob.declarativeadapter:adapter-kt:1.3.0.2'
 }
 ```
 
