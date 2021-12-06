@@ -1,5 +1,7 @@
 package ro.andreidobrescu.viewbinding_compat
 
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
@@ -56,14 +58,15 @@ object ReflectiveViewBindingFieldSetter
 
                 viewBindingField.set(target, viewBinding)
 
-                view.getActivity().lifecycle.addObserver(object : LifecycleEventObserver
-                {
-                    override fun onStateChanged(source : LifecycleOwner, event : Lifecycle.Event)
-                    {
-                        if (event==Lifecycle.Event.ON_DESTROY)
-                            viewBindingField.set(target, null)
-                    }
-                })
+                //can be inside an async layout inflater
+                Handler(Looper.getMainLooper()).post {
+                    view.getActivity().lifecycle.addObserver(object : LifecycleEventObserver {
+                        override fun onStateChanged(source : LifecycleOwner, event : Lifecycle.Event) {
+                            if (event==Lifecycle.Event.ON_DESTROY)
+                                viewBindingField.set(target, null)
+                        }
+                    })
+                }
             }
         }
 

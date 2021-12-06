@@ -78,8 +78,8 @@ allprojects {
 ```
 ```
 dependencies {
-    implementation 'ro.andob.declarativeadapter:adapter-kt:1.3.0.2'
-    implementation 'ro.andob.declarativeadapter:sticky-headers:1.3.0.2'
+    implementation 'ro.andob.declarativeadapter:adapter-kt:1.3.0.3'
+    implementation 'ro.andob.declarativeadapter:sticky-headers:1.3.0.3'
 }
 ```
 
@@ -133,8 +133,8 @@ allprojects {
 ```
 ```
 dependencies {
-    implementation 'ro.andob.declarativeadapter:adapter-kt:1.3.0.2'
-    implementation 'ro.andob.declarativeadapter:viewbinding-compat:1.3.0.2'
+    implementation 'ro.andob.declarativeadapter:adapter-kt:1.3.0.3'
+    implementation 'ro.andob.declarativeadapter:viewbinding-compat:1.3.0.3'
 }
 ```
 

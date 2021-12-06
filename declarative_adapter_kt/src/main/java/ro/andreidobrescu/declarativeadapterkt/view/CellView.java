@@ -1,8 +1,6 @@
 package ro.andreidobrescu.declarativeadapterkt.view;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
@@ -38,11 +36,7 @@ public abstract class CellView<MODEL> extends RelativeLayout
         LayoutInflater.from(getContext()).inflate(layout, this, true);
 
         if (CellViewGlobalEvents.getOnCellViewInflatedListener()!=null)
-        {
-            //can be inside an async layout inflater
-            new Handler(Looper.getMainLooper()).post(() ->
-                CellViewGlobalEvents.getOnCellViewInflatedListener().onCellViewInflated(this));
-        }
+            CellViewGlobalEvents.getOnCellViewInflatedListener().onCellViewInflated(this);
     }
 
     public abstract int layout();
