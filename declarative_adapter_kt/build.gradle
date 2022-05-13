@@ -16,6 +16,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    publishing {
+        singleVariant("release") {}
+    }
 }
 
 dependencies {
@@ -34,11 +38,11 @@ project.afterEvaluate {
                 }
             }
 
-            maven(MavenPublication) {
+            release(MavenPublication) {
+                from components.release
                 groupId 'ro.andob.declarativeadapter'
                 artifactId 'adapter-kt'
                 version '1.3.0.3'
-                artifact(bundleReleaseAar)
             }
         }
     }
