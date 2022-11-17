@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
 import ro.andreidobrescu.declarativeadapterkt.view.CellView
 import java.lang.reflect.Field
-import java.lang.reflect.Method
 
 //ButterKnife.bind(activity) -> ReflectiveViewBindingFieldSetter.setup(activity)
 //ButterKnife.bind(view) -> ReflectiveViewBindingFieldSetter.setup(view)
@@ -49,12 +48,12 @@ object ReflectiveViewBindingFieldSetter
         private class AutoBinding
         (
             private val viewBindingField : Field,
-            private val viewBindingFactory : Method
+            private val viewBindingFactory : (View) -> Any
         )
         {
             fun setup(target : Any, view : View)
             {
-                val viewBinding=viewBindingFactory.invoke(null, view)
+                val viewBinding=viewBindingFactory.invoke(view)
 
                 viewBindingField.set(target, viewBinding)
 
@@ -107,10 +106,20 @@ object ReflectiveViewBindingFieldSetter
                 {
                     viewBindingField.isAccessible=true
 
-                    val viewBindingFactory=viewBindingField.type
-                        .declaredMethods.find { method ->
+                    val viewType=View::class.java
+                    val viewBindingType=viewBindingField.type
+                    val viewBindingFactory=
+                        viewBindingType.declaredMethods.find { method ->
                             method.name=="bind"&&method.parameterTypes.size==1&&
-                            method.parameterTypes.first()==View::class.java
+                            method.parameterTypes.first()==viewType
+                        }?.let { bindMethod ->
+                            { view : View -> bindMethod.invoke(null, view)!! }
+                        }
+                        ?:viewBindingType.declaredConstructors.find { constructor ->
+                            constructor.parameterTypes.size==1&&
+                            constructor.parameterTypes.first()==viewType
+                        }?.let { constructor ->
+                            { view : View -> constructor.newInstance(view)!! }
                         }!!
 
                     autoBindings.add(AutoBinding(

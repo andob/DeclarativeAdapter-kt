@@ -1,2 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ro.andreidobrescu.declarativeadapterkt.stickyheaders" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" />
