@@ -13,7 +13,7 @@ import java.lang.reflect.Method
 open class SimpleDeclarativeAdapter<MODEL>
 (
     val viewCreator : (Context) -> CellView<MODEL>
-) : BaseDeclarativeAdapter()
+) : BaseDeclarativeAdapter<MODEL>()
 {
     private var binderMethod : Method? = null
 
@@ -53,8 +53,8 @@ open class SimpleDeclarativeAdapter<MODEL>
             catch (ex : Exception)
             {
                 if (ex is InvocationTargetException)
-                    DeclarativeAdapter.exceptionLogger.log(cellView, model, ex.targetException)
-                else DeclarativeAdapter.exceptionLogger.log(cellView, model, ex)
+                    DeclarativeAdapter.exceptionLogger.log(cellView, model as Any, ex.targetException)
+                else DeclarativeAdapter.exceptionLogger.log(cellView, model as Any, ex)
             }
         }
     }

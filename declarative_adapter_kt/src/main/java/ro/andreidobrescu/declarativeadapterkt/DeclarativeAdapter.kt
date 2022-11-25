@@ -12,7 +12,7 @@ import ro.andreidobrescu.declarativeadapterkt.view.CellView
 import ro.andreidobrescu.declarativeadapterkt.model.ModelBinder
 import java.lang.reflect.InvocationTargetException
 
-open class DeclarativeAdapter : BaseDeclarativeAdapter()
+open class DeclarativeAdapter : BaseDeclarativeAdapter<Any>()
 {
     interface ExceptionLogger
     {

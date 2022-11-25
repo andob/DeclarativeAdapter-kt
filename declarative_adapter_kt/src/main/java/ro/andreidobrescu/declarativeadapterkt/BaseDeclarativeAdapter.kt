@@ -4,26 +4,26 @@ import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView
 
 @SuppressLint("NotifyDataSetChanged")
-abstract class BaseDeclarativeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>()
+abstract class BaseDeclarativeAdapter<MODEL> : RecyclerView.Adapter<RecyclerView.ViewHolder>()
 {
-    val items : MutableList<Any> = mutableListOf<Any>()
+    val items : MutableList<MODEL> = mutableListOf<MODEL>()
 
     override fun getItemCount(): Int = items.size
 
-    open fun setItems(items : List<Any>)
+    open fun setItems(items : List<MODEL>)
     {
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
     }
 
-    open fun addItems(index : Int, items : List<Any>)
+    open fun addItems(index : Int, items : List<MODEL>)
     {
         this.items.addAll(index, items)
         notifyDataSetChanged()
     }
 
-    open fun addItems(items : List<Any>)
+    open fun addItems(items : List<MODEL>)
     {
         this.items.addAll(items)
         notifyDataSetChanged()
