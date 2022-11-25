@@ -101,10 +101,10 @@ val adapter = DeclarativeAdapter()
        .whenInstanceOf(CommentsHeader::class.java,
            use = { CommentsHeaderCellView(it) })
        .whenInstanceOf(Comment::class.java,
-           and = { index, comment -> comment.createdBy == User.loggedInUserId },
+           and = { comment -> comment.createdBy == User.loggedInUserId },
            use = { YourCommentCellView(it) })
        .whenInstanceOf(Comment::class.java,
-           and = { index, comment -> comment.createdBy != User.loggedInUserId },
+           and = { comment -> comment.createdBy != User.loggedInUserId },
            use = { context -> CommentCellView(context) })
 
 val restaurantDetails = provideRestaurantDetails()
@@ -153,7 +153,7 @@ The ``SimpleDeclarativeAdapter`` / ``DeclarativeAdapter`` classes have the follo
 ### License
 
 ```kotlin
-Copyright 2018-2021 Andrei Dobrescu
+Copyright 2018-2022 Andrei Dobrescu
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

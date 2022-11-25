@@ -44,17 +44,21 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter()
         val item=items[position]
 
         for ((index, cellType) in cellTypes.withIndex())
+        {
             if (cellType.isModelApplicable(index = position, item = item,
                 classComparer = { itemType, targetType -> itemType==targetType }))
                 return index
+        }
 
         for ((index, cellType) in cellTypes.withIndex())
+        {
             if (cellType.isModelApplicable(index = position, item = item,
                 classComparer = { itemType, targetType ->
                     itemType.superclass==targetType||
-                    targetType.isAssignableFrom(itemType)
+                        targetType.isAssignableFrom(itemType)
                 }))
                 return index
+        }
 
         throw RuntimeException("Invalid adapter configuration! Item: $item, item type: ${item::class.java.simpleName}")
     }
@@ -67,15 +71,18 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter()
         val viewHolder=object : RecyclerView.ViewHolder(cellView) {}
 
         if (cellType.viewModelBinderMethod==null)
+        {
             cellType.viewModelBinderMethod=cellView::class.java.declaredMethods.find { method ->
                 method.annotations.filterIsInstance<ModelBinder>().isNotEmpty()
             }
+        }
 
         (cellView.context as? OnCellViewInflatedListener)?.onCellViewInflated(cellView)
 
         return viewHolder
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun onBindViewHolder(holder : RecyclerView.ViewHolder, position : Int)
     {
         val cellType=cellTypes[getItemViewType(position)]
@@ -100,23 +107,24 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter()
         }
     }
 
+    inline fun <reified MODEL : Any> whenInstanceOf() = whenInstanceOf(clazz = MODEL::class.java)
     fun <MODEL : Any> whenInstanceOf(clazz : Class<MODEL>) = Builder(adapter = this, modelType = clazz)
 
     class Builder<MODEL : Any>(val adapter : DeclarativeAdapter, val modelType : Class<MODEL>)
     {
-        fun use(factory : (Context) -> (CellView<MODEL>)) =
+        fun use(factory : (Context) -> CellView<MODEL>) =
             adapter.whenInstanceOf(modelType, use = factory)
 
-        fun and(predicate : (Int, MODEL) -> (Boolean)) = Builder2(adapter = adapter, modelType = modelType, predicate = predicate)
+        fun and(predicate : (MODEL) -> Boolean) = Builder2(adapter = adapter, modelType = modelType, predicate = predicate)
 
-        class Builder2<MODEL : Any>(val adapter : DeclarativeAdapter, val modelType : Class<MODEL>, val predicate : (Int, MODEL) -> (Boolean))
+        class Builder2<MODEL : Any>(val adapter : DeclarativeAdapter, val modelType : Class<MODEL>, val predicate : (MODEL) -> Boolean)
         {
-            fun use(factory : (Context) -> (CellView<MODEL>)) =
+            fun use(factory : (Context) -> CellView<MODEL>) =
                 adapter.whenInstanceOf(modelType, and = predicate, use = factory)
         }
     }
 
-    fun <MODEL : Any> whenInstanceOf(clazz : Class<MODEL>, use : (Context) -> (CellView<MODEL>)) : DeclarativeAdapter
+    fun <MODEL : Any> whenInstanceOf(clazz : Class<MODEL>, use : (Context) -> CellView<MODEL>) : DeclarativeAdapter
     {
         val type=CellType<MODEL>()
         type.modelClass=clazz
@@ -125,7 +133,7 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter()
         return this
     }
 
-    fun <MODEL : Any> whenInstanceOf(clazz : Class<MODEL>, and : (Int, MODEL) -> (Boolean), use : (Context) -> (CellView<MODEL>)) : DeclarativeAdapter
+    fun <MODEL : Any> whenInstanceOf(clazz : Class<MODEL>, and : (MODEL) -> Boolean, use : (Context) -> CellView<MODEL>) : DeclarativeAdapter
     {
         val type=CellType<MODEL>()
         type.modelClass=clazz

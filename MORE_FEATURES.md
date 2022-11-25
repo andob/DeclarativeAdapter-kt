@@ -31,7 +31,7 @@ Since I use this library in projects with huge Java codebases, the library API i
 ```kotlin
 val adapter = DeclarativeAdapter()
        .whenInstanceOf(Restaurant::class.java,
-           and = { index, restaurant -> index==0 },
+           and = { restaurant -> restaurant.name="wat" },
            use = { RestaurantCellView(it) })
        .whenInstanceOf(Receipe::class.java,
            use = { ReceipeCellView(it) })
@@ -42,7 +42,7 @@ This looks nice in Kotlin, because we have named parameters. On Java, writing th
 ```java
 new DeclarativeAdapter()
        .whenInstanceOf(Restaurant::class.java,
-            (index, restaurant) -> index==0,
+            (restaurant) -> restaurant.getName().equals("wat"),
             (context) -> new RestaurantCellView(context))
        .whenInstanceOf(Receipe::class.java,
             (context) -> new ReceipeCellView(context));
@@ -53,7 +53,7 @@ On Java, please use the Builders API:
 ```java
 new DeclarativeAdapter()
        .whenInstanceOf(Restaurant::class.java)
-       .and((index, restaurant) -> index==0)
+       .and((restaurant) -> restaurant.getName().equals("wat"))
        .use(context -> new RestaurantCellView(context))
        .whenInstanceOf(Receipe::class.java)
        .use(context -> new ReceipeCellView(context));

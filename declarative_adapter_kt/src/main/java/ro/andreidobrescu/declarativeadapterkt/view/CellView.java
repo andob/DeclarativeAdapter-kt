@@ -11,29 +11,24 @@ public abstract class CellView<MODEL> extends RelativeLayout
     public CellView(Context context)
     {
         super(context);
-        inflateLayout(layout());
+        inflateLayout();
     }
 
     public CellView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        inflateLayout(layout());
+        inflateLayout();
     }
 
     public CellView(Context context, AttributeSet attrs, int defStyleAttr)
     {
         super(context, attrs, defStyleAttr);
-        inflateLayout(layout());
+        inflateLayout();
     }
 
     private void inflateLayout()
     {
-        inflateLayout(layout());
-    }
-
-    private void inflateLayout(int layout)
-    {
-        LayoutInflater.from(getContext()).inflate(layout, this, true);
+        LayoutInflater.from(getContext()).inflate(layout(), this, true);
 
         if (CellViewGlobalEvents.getOnCellViewInflatedListener()!=null)
             CellViewGlobalEvents.getOnCellViewInflatedListener().onCellViewInflated(this);

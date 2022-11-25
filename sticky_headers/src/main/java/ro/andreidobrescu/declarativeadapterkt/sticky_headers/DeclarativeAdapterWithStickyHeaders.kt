@@ -35,7 +35,7 @@ class DeclarativeAdapterWithStickyHeaders
 
     private class StickyHeaderDescriptor
     (
-        val stickyHeaderViewCreator : ((Context) -> (CellView<out Any>))?,
+        val stickyHeaderViewCreator : ((Context) -> CellView<out Any>)?,
         val stickyHeaderModelType : Class<*>,
         val index : Int
     )

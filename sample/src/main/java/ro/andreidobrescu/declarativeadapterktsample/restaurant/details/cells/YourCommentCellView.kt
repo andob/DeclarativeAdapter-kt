@@ -11,7 +11,7 @@ import ro.andreidobrescu.viewbinding_compat.AutoViewBinding
 class YourCommentCellView
 (
     context : Context?,
-    private val onDeleteListener : (Comment) -> (Unit)
+    private val onDeleteListener : (Comment) -> Unit
 ) : CellView<Comment>(context)
 {
     @AutoViewBinding

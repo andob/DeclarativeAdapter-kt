@@ -8,8 +8,8 @@ import ro.andreidobrescu.declarativeadapterkt.model.ModelBinder
 
 class StickyHeaderItemDecoration
 (
-    private val stickyHeaderViewInstantiator : (Int) -> (StickyHeaderView<*>?),
-    private val stickyHeaderModelTypeProvider : (Int) -> (Class<*>?)
+    private val stickyHeaderViewInstantiator : (Int) -> StickyHeaderView<*>?,
+    private val stickyHeaderModelTypeProvider : (Int) -> Class<*>?
 ) : RecyclerView.ItemDecoration()
 {
     override fun onDrawOver(canvas : Canvas, recyclerView : RecyclerView, state : RecyclerView.State)

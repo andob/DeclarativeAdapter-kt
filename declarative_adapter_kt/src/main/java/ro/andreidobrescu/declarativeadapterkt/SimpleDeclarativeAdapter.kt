@@ -12,28 +12,31 @@ import java.lang.reflect.Method
 
 open class SimpleDeclarativeAdapter<MODEL>
 (
-    val viewCreator : (Context) -> (CellView<MODEL>)
+    val viewCreator : (Context) -> CellView<MODEL>
 ) : BaseDeclarativeAdapter()
 {
     private var binderMethod : Method? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
+    override fun onCreateViewHolder(parent : ViewGroup, viewType : Int) : RecyclerView.ViewHolder
     {
         val cellView=viewCreator(parent.context)
         cellView.layoutParams=RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
         val viewHolder=object : RecyclerView.ViewHolder(cellView) {}
 
         if (binderMethod==null)
+        {
             binderMethod=cellView::class.java.declaredMethods.find { method ->
                 method.annotations.filterIsInstance<ModelBinder>().isNotEmpty()
             }
+        }
 
         (cellView.context as? OnCellViewInflatedListener)?.onCellViewInflated(cellView)
 
         return viewHolder
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int)
+    @Suppress("UNCHECKED_CAST")
+    override fun onBindViewHolder(holder : RecyclerView.ViewHolder, position : Int)
     {
         if (binderMethod!=null)
         {
@@ -42,7 +45,7 @@ open class SimpleDeclarativeAdapter<MODEL>
 
             try
             {
-                binderMethod?.invoke(cellView, model)
+                binderMethod!!.invoke(cellView, model)
 
                 CellViewGlobalEvents.getOnCellViewBindedListener()
                     ?.onCellViewBindedToModel(cellView, model)

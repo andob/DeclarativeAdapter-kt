@@ -1,5 +1,6 @@
 package ro.andreidobrescu.declarativeadapterktsample.restaurant.details
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +27,7 @@ class RestaurantDetailsActivity : AppCompatActivity()
     @AutoViewBinding
     lateinit var binding : ActivityRestaurantDetailsBinding
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState : Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -45,9 +47,7 @@ class RestaurantDetailsActivity : AppCompatActivity()
                 .whenInstanceOf(CommentsStickyHeader::class.java,
                     use = { CommentsHeaderCellView(it) })
                 .whenInstanceOf(Comment::class.java,
-                    and = { index, comment ->
-                        comment.createdBy==User.loggedInUserId
-                    },
+                    and = { comment -> comment.createdBy==User.loggedInUserId },
                     use = { context ->
                         YourCommentCellView(context,
                             onDeleteListener = { comment ->
@@ -56,12 +56,8 @@ class RestaurantDetailsActivity : AppCompatActivity()
                             })
                     })
                 .whenInstanceOf(Comment::class.java,
-                    and = { index, comment ->
-                        comment.createdBy!=User.loggedInUserId
-                    },
-                    use = { context ->
-                        CommentCellView(context)
-                    })
+                    and = { comment -> comment.createdBy!=User.loggedInUserId },
+                    use = { context -> CommentCellView(context) })
 
         val restaurantDetails=provideRestaurantDetails()
         val items=mutableListOf<Any>()
