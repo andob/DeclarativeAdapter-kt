@@ -1,6 +1,7 @@
 package ro.andreidobrescu.declarativeadapterktsample.restaurant.list
 
 import android.content.Context
+import android.util.AttributeSet
 import com.squareup.picasso.Picasso
 import ro.andreidobrescu.declarativeadapterkt.view.CellView
 import ro.andreidobrescu.declarativeadapterkt.model.ModelBinder
@@ -14,10 +15,10 @@ class RestaurantCellView : CellView<Restaurant>
 {
     @AutoViewBinding
     lateinit var binding : CellRestaurantBinding
-
-    constructor(context : Context?) : super(context)
-
     override fun layout() : Int = R.layout.cell_restaurant
+
+    constructor(context : Context) : super(context)
+    constructor(context : Context, attrs : AttributeSet) : super(context, attrs)
 
     @ModelBinder
     fun setRestaurant(restaurant : Restaurant)

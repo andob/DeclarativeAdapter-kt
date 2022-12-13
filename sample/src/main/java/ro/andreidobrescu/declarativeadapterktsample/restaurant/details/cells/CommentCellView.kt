@@ -1,6 +1,7 @@
 package ro.andreidobrescu.declarativeadapterktsample.restaurant.details.cells
 
 import android.content.Context
+import android.util.AttributeSet
 import ro.andreidobrescu.declarativeadapterkt.view.CellView
 import ro.andreidobrescu.declarativeadapterkt.model.ModelBinder
 import ro.andreidobrescu.declarativeadapterktsample.R
@@ -12,10 +13,10 @@ class CommentCellView : CellView<Comment>
 {
     @AutoViewBinding
     lateinit var binding : CellCommentBinding
-
-    constructor(context : Context?) : super(context)
-
     override fun layout() : Int = R.layout.cell_comment
+
+    constructor(context : Context) : super(context)
+    constructor(context : Context, attrs : AttributeSet) : super(context, attrs)
 
     @ModelBinder
     fun setComment(comment : Comment)

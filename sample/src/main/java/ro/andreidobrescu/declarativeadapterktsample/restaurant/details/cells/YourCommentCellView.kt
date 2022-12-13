@@ -1,6 +1,7 @@
 package ro.andreidobrescu.declarativeadapterktsample.restaurant.details.cells
 
 import android.content.Context
+import android.util.AttributeSet
 import ro.andreidobrescu.declarativeadapterkt.view.CellView
 import ro.andreidobrescu.declarativeadapterkt.model.ModelBinder
 import ro.andreidobrescu.declarativeadapterktsample.R
@@ -8,16 +9,17 @@ import ro.andreidobrescu.declarativeadapterktsample.databinding.CellYourCommentB
 import ro.andreidobrescu.declarativeadapterktsample.model.Comment
 import ro.andreidobrescu.viewbinding_compat.AutoViewBinding
 
-class YourCommentCellView
-(
-    context : Context?,
-    private val onDeleteListener : (Comment) -> Unit
-) : CellView<Comment>(context)
+class YourCommentCellView : CellView<Comment>
 {
     @AutoViewBinding
     lateinit var binding : CellYourCommentBinding
-
     override fun layout() : Int = R.layout.cell_your_comment
+
+    private var onDeleteListener : ((Comment) -> Unit)? = null
+
+    constructor(context : Context) : super(context)
+    constructor(context : Context, attrs : AttributeSet) : super(context, attrs)
+    constructor(context : Context, onDeleteListener : (Comment) -> Unit) : super(context) { this.onDeleteListener=onDeleteListener }
 
     @ModelBinder
     fun setComment(comment : Comment)
@@ -27,7 +29,7 @@ class YourCommentCellView
         binding.messageLabel.text=comment.message
 
         binding.deleteButton.setOnClickListener {
-            onDeleteListener(comment)
+            onDeleteListener?.invoke(comment)
         }
     }
 }
