@@ -110,7 +110,7 @@ object ReflectiveViewBindingFieldSetter
         val conflictingFields=mainBindingFields.map { mainBindingField ->
             mainBindingField to alternateBindingFields.find { alternateBindingField ->
                 mainBindingField.name==alternateBindingField.name
-                &&mainBindingField.type!=alternateBindingField.type
+                &&!alternateBindingField.type.isAssignableFrom(mainBindingField.type)
             }
         }.filter { (_, alt) -> alt!=null }
 
@@ -120,7 +120,7 @@ object ReflectiveViewBindingFieldSetter
                 "Conflicting layouts: ${mainBindingClass.name} / ${alternateBindingClass.name}\n"+
                 conflictingFields.map { (mainBindingField, alternateBindingField) ->
                     "${alternateBindingClass.name}.${alternateBindingField?.name} has type "+
-                    "${alternateBindingField?.declaringClass} but it should be ${mainBindingField.declaringClass}!"
+                    "${alternateBindingField?.type} but it should be ${mainBindingField.type}!"
                 }.joinToString(separator = "\n"))
         }
     }
