@@ -78,8 +78,8 @@ allprojects {
 ```
 ```
 dependencies {
-    implementation 'ro.andob.declarativeadapter:adapter-kt:1.3.0.7'
-    implementation 'ro.andob.declarativeadapter:sticky-headers:1.3.0.7'
+    implementation 'ro.andob.declarativeadapter:adapter-kt:1.3.0.8'
+    implementation 'ro.andob.declarativeadapter:sticky-headers:1.3.0.8'
 }
 ```
 
@@ -133,8 +133,8 @@ allprojects {
 ```
 ```
 dependencies {
-    implementation 'ro.andob.declarativeadapter:adapter-kt:1.3.0.7'
-    implementation 'ro.andob.declarativeadapter:viewbinding-compat:1.3.0.7
+    implementation 'ro.andob.declarativeadapter:adapter-kt:1.3.0.8'
+    implementation 'ro.andob.declarativeadapter:viewbinding-compat:1.3.0.8'
 }
 ```
 
@@ -254,5 +254,3 @@ class MainMenuFragment : BaseFragment()
     }
 }
 ```
-
-Downside: The ``ReflectiveViewBindingFieldSetter`` class uses reflection magic in order to find and set fields annotated with ``@AutoViewBinding``. It also uses a cache in order to make the minimum reflection calls possible. Also the method annotated with ``@ModelBinder`` from the objects that inherit ``CellView`` is invoked via reflection + a cache. If performance is still a problem IN 2020, reflection magic could be migrated to annotation processor / code generation magic.

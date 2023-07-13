@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
 import ro.andreidobrescu.declarativeadapterkt.view.CellView
 import java.lang.reflect.Field
+import java.lang.reflect.Modifier
 
 //ButterKnife.bind(activity) -> ReflectiveViewBindingFieldSetter.setup(activity)
 //ButterKnife.bind(view) -> ReflectiveViewBindingFieldSetter.setup(view)
@@ -36,101 +37,91 @@ object ReflectiveViewBindingFieldSetter
                 view.getChildAt(0)
             else view
 
-        Implementation.get(target, viewToBind)
-                .setup(target, viewToBind)
+        val viewBindingFields=target::class.java.getAllFields()
+            .filter { field -> field.annotations.find { it is AutoViewBinding }!=null }
+
+        for (viewBindingField in viewBindingFields)
+        {
+            bind(target, viewBindingField, viewToBind)
+
+            val alternativeBindingType=viewBindingField.getAnnotation(AutoViewBinding::class.java)
+                ?.alternative?.java?.let { alt -> if (alt!=Void::class.java) alt else null }
+            if (alternativeBindingType!=null)
+                checkAlternativeBinding(viewBindingField.type, alternativeBindingType)
+        }
     }
 
-    private class Implementation
-    (
-        private val autoBindings : List<AutoBinding>
-    )
+    private fun bind(target : Any, viewBindingField : Field, view : View)
     {
-        private class AutoBinding
-        (
-            private val viewBindingField : Field,
-            private val viewBindingFactory : (View) -> Any
-        )
-        {
-            fun setup(target : Any, view : View)
-            {
-                val viewBinding=viewBindingFactory.invoke(view)
+        viewBindingField.isAccessible=true
 
-                viewBindingField.set(target, viewBinding)
-
-                //can be inside an async layout inflater
-                Handler(Looper.getMainLooper()).post {
-                    view.getActivity().lifecycle.addObserver(object : LifecycleEventObserver {
-                        override fun onStateChanged(source : LifecycleOwner, event : Lifecycle.Event) {
-                            if (event==Lifecycle.Event.ON_DESTROY)
-                                viewBindingField.set(target, null)
-                        }
-                    })
-                }
+        val viewClass=View::class.java
+        val viewBindingFactory=
+            viewBindingField.type.declaredMethods.find { method ->
+                method.name=="bind"&&method.parameterTypes.size==1&&
+                method.parameterTypes.first()==viewClass
+            }?.let { bindMethod ->
+                { view : View -> bindMethod.invoke(null, view)!! }
             }
+                ?:viewBindingField.type.declaredConstructors.find { constructor ->
+                    constructor.parameterTypes.size==1&&
+                    constructor.parameterTypes.first()==viewClass
+                }?.let { constructor ->
+                    { view : View -> constructor.newInstance(view)!! }
+                }!!
+
+        val viewBinding=viewBindingFactory.invoke(view)
+
+        viewBindingField.set(target, viewBinding)
+
+        //can be inside an async layout inflater
+        Handler(Looper.getMainLooper()).post {
+            view.getActivity().lifecycle.addObserver(object : LifecycleEventObserver {
+                override fun onStateChanged(source : LifecycleOwner, event : Lifecycle.Event) {
+                    if (event==Lifecycle.Event.ON_DESTROY)
+                        viewBindingField.set(target, null)
+                }
+            })
+        }
+    }
+
+    private fun checkAlternativeBinding(mainBindingClass : Class<*>, alternateBindingClass : Class<*>)
+    {
+        val mainBindingFields=mainBindingClass.declaredFields
+            .filter { Modifier.isFinal(it.modifiers)&& Modifier.isPublic(it.modifiers) }
+
+        val alternateBindingFields=alternateBindingClass.declaredFields
+            .filter { Modifier.isFinal(it.modifiers)&& Modifier.isPublic(it.modifiers) }
+
+        val missingFields=mainBindingFields.filter { mainBindingField ->
+            alternateBindingFields.find { alternateBindingField ->
+                mainBindingField.name==alternateBindingField.name
+            }==null
         }
 
-        fun setup(target : Any, view : View)
+        if (missingFields.isNotEmpty())
         {
-            for (autoBinding in autoBindings)
-                autoBinding.setup(target, view)
+            throw RuntimeException(
+                "Conflicting layouts: ${mainBindingClass.name} / ${alternateBindingClass.name}"
+                +"\nThere are missing fields in the alternate layout: ${alternateBindingClass.name}\n"
+                +missingFields.joinToString(separator = "\n"))
         }
 
-        companion object
-        {
-            @JvmStatic
-            private val CACHE_SIZE = 100
-
-            @JvmStatic
-            private val cache = mutableMapOf<Class<*>, Implementation>()
-
-            @JvmStatic
-            fun get(target : Any, view : View) : Implementation
-            {
-                if (cache.size>=CACHE_SIZE)
-                    cache.clear()
-
-                val targetClass=target::class.java
-                if (cache.containsKey(targetClass))
-                    return cache[targetClass]!!
-
-                val autoBindings=mutableListOf<AutoBinding>()
-
-                val viewBindingFields=targetClass.getAllFields()
-                    .filter { field ->
-                        field.annotations.find { fieldAnnotation ->
-                            fieldAnnotation is AutoViewBinding
-                        }!=null
-                    }
-
-                for (viewBindingField in viewBindingFields)
-                {
-                    viewBindingField.isAccessible=true
-
-                    val viewType=View::class.java
-                    val viewBindingType=viewBindingField.type
-                    val viewBindingFactory=
-                        viewBindingType.declaredMethods.find { method ->
-                            method.name=="bind"&&method.parameterTypes.size==1&&
-                            method.parameterTypes.first()==viewType
-                        }?.let { bindMethod ->
-                            { view : View -> bindMethod.invoke(null, view)!! }
-                        }
-                        ?:viewBindingType.declaredConstructors.find { constructor ->
-                            constructor.parameterTypes.size==1&&
-                            constructor.parameterTypes.first()==viewType
-                        }?.let { constructor ->
-                            { view : View -> constructor.newInstance(view)!! }
-                        }!!
-
-                    autoBindings.add(AutoBinding(
-                        viewBindingField = viewBindingField,
-                        viewBindingFactory = viewBindingFactory))
-                }
-
-                val implementation=Implementation(autoBindings)
-                cache[targetClass]=implementation
-                return implementation
+        val conflictingFields=mainBindingFields.map { mainBindingField ->
+            mainBindingField to alternateBindingFields.find { alternateBindingField ->
+                mainBindingField.name==alternateBindingField.name
+                &&mainBindingField.type!=alternateBindingField.type
             }
+        }.filter { (_, alt) -> alt!=null }
+
+        if (conflictingFields.isNotEmpty())
+        {
+            throw RuntimeException(
+                "Conflicting layouts: ${mainBindingClass.name} / ${alternateBindingClass.name}\n"+
+                conflictingFields.map { (mainBindingField, alternateBindingField) ->
+                    "${alternateBindingClass.name}.${alternateBindingField?.name} has type "+
+                    "${alternateBindingField?.declaringClass} but it should be ${mainBindingField.declaringClass}!"
+                }.joinToString(separator = "\n"))
         }
     }
 }
