@@ -110,7 +110,7 @@ object ReflectiveViewBindingFieldSetter
         val conflictingFields=mainBindingFields.map { mainBindingField ->
             mainBindingField to alternateBindingFields.find { alternateBindingField ->
                 mainBindingField.name==alternateBindingField.name
-                &&!alternateBindingField.type.isAssignableFrom(mainBindingField.type)
+                &&mainBindingField.type!=alternateBindingField.type
             }
         }.filter { (_, alt) -> alt!=null }
 
