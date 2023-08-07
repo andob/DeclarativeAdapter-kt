@@ -22,11 +22,11 @@ class RestaurantListActivity : AppCompatActivity()
         ReflectiveViewBindingFieldSetter.setup(this)
         setSupportActionBar(binding.toolbar)
 
-        binding.recyclerView.layoutManager=LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
         //by default, if you build the app for debug, the exception gets logged to logcat and as a toast
         //to replace the default exception logger, use this
-//        DeclarativeAdapter.exceptionLogger=object : DeclarativeAdapter.ExceptionLogger {
+//        DeclarativeAdapter.exceptionLogger = object : DeclarativeAdapter.ExceptionLogger {
 //            override fun <MODEL> log(cellView : CellView<MODEL>, model : MODEL, exception : Throwable)
 //            {
 //                if (BuildConfig.DEBUG) exception.printStackTrace()
@@ -34,8 +34,8 @@ class RestaurantListActivity : AppCompatActivity()
 //            }
 //        }
 
-        val adapter=SimpleDeclarativeAdapter { RestaurantCellView(it) }
-        binding.recyclerView.adapter=adapter
+        val adapter = SimpleDeclarativeAdapter { RestaurantCellView(it) }
+        binding.recyclerView.adapter = adapter
         adapter.setItems(provideRestaurants())
     }
 

@@ -16,14 +16,14 @@ class StickyHeaderItemDecoration
     {
         super.onDrawOver(canvas, recyclerView, state)
 
-        val topChild=recyclerView.getChildAt(0)?:return
+        val topChild = recyclerView.getChildAt(0)?:return
 
-        val topChildPosition=recyclerView.getChildAdapterPosition(topChild)
+        val topChildPosition = recyclerView.getChildAdapterPosition(topChild)
         if (topChildPosition==RecyclerView.NO_POSITION)
             return
 
-        val stickyHeaderView=stickyHeaderViewInstantiator.invoke(topChildPosition)?:return
-        val stickyHeaderModelType=stickyHeaderModelTypeProvider.invoke(topChildPosition)?:return
+        val stickyHeaderView = stickyHeaderViewInstantiator.invoke(topChildPosition)?:return
+        val stickyHeaderModelType = stickyHeaderModelTypeProvider.invoke(topChildPosition)?:return
 
         fun List<Any>.findHeaderModel() : Any?
         {
@@ -33,11 +33,11 @@ class StickyHeaderItemDecoration
             return null
         }
 
-        val items=(recyclerView.adapter as DeclarativeAdapterWithStickyHeaders).items
-        val headerModel=items.findHeaderModel()
+        val items = (recyclerView.adapter as DeclarativeAdapterWithStickyHeaders).items
+        val headerModel = items.findHeaderModel()
         if (headerModel!=null)
         {
-            val viewModelBinderMethod=stickyHeaderView::class.java.declaredMethods
+            val viewModelBinderMethod = stickyHeaderView::class.java.declaredMethods
                 .find { method -> method.annotations.find { it is ModelBinder }!=null }
 
             if (viewModelBinderMethod!=null)
@@ -47,17 +47,17 @@ class StickyHeaderItemDecoration
             }
         }
 
-        val recyclerViewWidthSpec=View.MeasureSpec.makeMeasureSpec(recyclerView.width, View.MeasureSpec.EXACTLY)
-        val recyclerViewHeightSpec=View.MeasureSpec.makeMeasureSpec(recyclerView.height, View.MeasureSpec.EXACTLY)
-        val stickyHeaderViewWidthSpec=ViewGroup.getChildMeasureSpec(recyclerViewWidthSpec,
+        val recyclerViewWidthSpec = View.MeasureSpec.makeMeasureSpec(recyclerView.width, View.MeasureSpec.EXACTLY)
+        val recyclerViewHeightSpec = View.MeasureSpec.makeMeasureSpec(recyclerView.height, View.MeasureSpec.EXACTLY)
+        val stickyHeaderViewWidthSpec = ViewGroup.getChildMeasureSpec(recyclerViewWidthSpec,
             recyclerView.paddingLeft+recyclerView.paddingRight, ViewGroup.LayoutParams.MATCH_PARENT)
-        val stickyHeaderViewHeightSpec=ViewGroup.getChildMeasureSpec(recyclerViewHeightSpec,
+        val stickyHeaderViewHeightSpec = ViewGroup.getChildMeasureSpec(recyclerViewHeightSpec,
             recyclerView.paddingTop+recyclerView.paddingBottom, ViewGroup.LayoutParams.WRAP_CONTENT)
         stickyHeaderView.measure(stickyHeaderViewWidthSpec, stickyHeaderViewHeightSpec)
         stickyHeaderView.layout(0, 0, stickyHeaderView.measuredWidth, stickyHeaderView.measuredHeight)
 
-        val contactPoint=stickyHeaderView.bottom
-        val childInContact=getChildInContact(recyclerView, contactPoint)?:return
+        val contactPoint = stickyHeaderView.bottom
+        val childInContact = getChildInContact(recyclerView, contactPoint)?:return
         if (childInContact is StickyHeaderView<*>)
             moveStickyHeader(canvas, stickyHeaderView, childInContact)
         else drawStickyHeader(canvas, stickyHeaderView)
@@ -85,8 +85,8 @@ class StickyHeaderItemDecoration
     {
         for (i in 0 until recyclerView.childCount)
         {
-            val child=recyclerView.getChildAt(i)
-            if (child.top<=contactPoint&&contactPoint<child.bottom)
+            val child = recyclerView.getChildAt(i)
+            if (child.top<=contactPoint && contactPoint<child.bottom)
                 return child
         }
 

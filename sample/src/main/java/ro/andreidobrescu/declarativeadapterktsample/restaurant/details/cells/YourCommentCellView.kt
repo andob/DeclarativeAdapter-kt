@@ -19,14 +19,14 @@ class YourCommentCellView : CellView<Comment>
 
     constructor(context : Context) : super(context)
     constructor(context : Context, attrs : AttributeSet) : super(context, attrs)
-    constructor(context : Context, onDeleteListener : (Comment) -> Unit) : super(context) { this.onDeleteListener=onDeleteListener }
+    constructor(context : Context, onDeleteListener : (Comment) -> Unit) : super(context) { this.onDeleteListener = onDeleteListener }
 
     @ModelBinder
     fun setComment(comment : Comment)
     {
-        binding.authorLabel.text=comment.author
-        binding.createdAtLabel.text=comment.createdAt
-        binding.messageLabel.text=comment.message
+        binding.authorLabel.text = comment.author
+        binding.createdAtLabel.text = comment.createdAt
+        binding.messageLabel.text = comment.message
 
         binding.deleteButton.setOnClickListener {
             onDeleteListener?.invoke(comment)

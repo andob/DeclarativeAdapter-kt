@@ -27,6 +27,6 @@ class ReceipeCellView : CellView<Receipe>
                 .load(receipe.image)
                 .into(binding.imageView)
 
-        binding.nameLabel.text=receipe.name
+        binding.nameLabel.text = receipe.name
     }
 }

@@ -27,9 +27,9 @@ class RestaurantCellView : CellView<Restaurant>
             .load(restaurant.image)
             .into(binding.imageView)
 
-        binding.nameLabel.text=restaurant.name
-        binding.locationLabel.text=restaurant.location
-        binding.ratingLabel.text="Rating: ${restaurant.rating}/5"
+        binding.nameLabel.text = restaurant.name
+        binding.locationLabel.text = restaurant.location
+        binding.ratingLabel.text = "Rating: ${restaurant.rating}/5"
 
         binding.cell.setOnClickListener { view ->
             RestaurantDetailsActivityBundleBuilder()

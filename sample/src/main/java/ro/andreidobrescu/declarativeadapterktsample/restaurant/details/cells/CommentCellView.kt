@@ -21,8 +21,8 @@ class CommentCellView : CellView<Comment>
     @ModelBinder
     fun setComment(comment : Comment)
     {
-        binding.authorLabel.text=comment.author
-        binding.createdAtLabel.text=comment.createdAt
-        binding.messageLabel.text=comment.message
+        binding.authorLabel.text = comment.author
+        binding.createdAtLabel.text = comment.createdAt
+        binding.messageLabel.text = comment.message
     }
 }

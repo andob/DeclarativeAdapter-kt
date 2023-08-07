@@ -9,7 +9,7 @@ internal fun AppCompatActivity.getContentView() =
 
 internal fun View.getActivity() : AppCompatActivity
 {
-    var lookupContext=context
+    var lookupContext = context
 
     do
     {
@@ -17,12 +17,12 @@ internal fun View.getActivity() : AppCompatActivity
             return lookupContext
 
         if (lookupContext is android.view.ContextThemeWrapper
-            &&lookupContext.baseContext!=null)
-            lookupContext=lookupContext.baseContext
+            && lookupContext.baseContext!=null)
+            lookupContext = lookupContext.baseContext
 
         else if (lookupContext is androidx.appcompat.view.ContextThemeWrapper
-                &&lookupContext.baseContext!=null)
-            lookupContext=lookupContext.baseContext
+                && lookupContext.baseContext!=null)
+            lookupContext = lookupContext.baseContext
     }
     while (lookupContext !is AppCompatActivity)
 

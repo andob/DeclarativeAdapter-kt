@@ -8,7 +8,7 @@ abstract class BaseDeclarativeAdapter<MODEL> : RecyclerView.Adapter<RecyclerView
 {
     val items : MutableList<MODEL> = mutableListOf<MODEL>()
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount() : Int = items.size
 
     open fun setItems(items : List<MODEL>)
     {

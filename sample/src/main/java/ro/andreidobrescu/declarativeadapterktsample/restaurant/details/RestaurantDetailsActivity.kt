@@ -36,9 +36,9 @@ class RestaurantDetailsActivity : AppCompatActivity()
         ReflectiveViewBindingFieldSetter.setup(this)
         setSupportActionBar(binding.toolbar)
 
-        binding.recyclerView.layoutManager=LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val adapter=DeclarativeAdapterWithStickyHeaders(binding.recyclerView)
+        val adapter = DeclarativeAdapterWithStickyHeaders(binding.recyclerView)
 
         adapter.whenInstanceOf(Restaurant::class.java,
                     use = { RestaurantCellView(it) })
@@ -59,8 +59,8 @@ class RestaurantDetailsActivity : AppCompatActivity()
                     and = { comment -> comment.createdBy!=User.loggedInUserId },
                     use = { context -> CommentCellView(context) })
 
-        val restaurantDetails=provideRestaurantDetails()
-        val items=mutableListOf<Any>()
+        val restaurantDetails = provideRestaurantDetails()
+        val items = mutableListOf<Any>()
         items.add(restaurantDetails.restaurant)
         items.addAll(restaurantDetails.receipes)
 
@@ -70,7 +70,7 @@ class RestaurantDetailsActivity : AppCompatActivity()
             items.addAll(restaurantDetails.comments)
         }
 
-        binding.recyclerView.adapter=adapter
+        binding.recyclerView.adapter = adapter
         adapter.setItems(items)
     }
 

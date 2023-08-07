@@ -32,19 +32,19 @@ object ReflectiveViewBindingFieldSetter
 
     fun setup(target : Any, view : View)
     {
-        val viewToBind=
+        val viewToBind = 
             if (view is CellView<*>)
                 view.getChildAt(0)
             else view
 
-        val viewBindingFields=target::class.java.getAllFields()
+        val viewBindingFields = target::class.java.getAllFields()
             .filter { field -> field.annotations.find { it is AutoViewBinding }!=null }
 
         for (viewBindingField in viewBindingFields)
         {
             bind(target, viewBindingField, viewToBind)
 
-            val alternativeBindingType=viewBindingField.getAnnotation(AutoViewBinding::class.java)
+            val alternativeBindingType = viewBindingField.getAnnotation(AutoViewBinding::class.java)
                 ?.alternative?.java?.let { alt -> if (alt!=Void::class.java) alt else null }
             if (alternativeBindingType!=null)
                 checkAlternativeBinding(viewBindingField.type, alternativeBindingType)
@@ -53,24 +53,24 @@ object ReflectiveViewBindingFieldSetter
 
     private fun bind(target : Any, viewBindingField : Field, view : View)
     {
-        viewBindingField.isAccessible=true
+        viewBindingField.isAccessible = true
 
-        val viewClass=View::class.java
-        val viewBindingFactory=
+        val viewClass = View::class.java
+        val viewBindingFactory = 
             viewBindingField.type.declaredMethods.find { method ->
-                method.name=="bind"&&method.parameterTypes.size==1&&
+                method.name=="bind" && method.parameterTypes.size==1 && 
                 method.parameterTypes.first()==viewClass
             }?.let { bindMethod ->
                 { view : View -> bindMethod.invoke(null, view)!! }
             }
                 ?:viewBindingField.type.declaredConstructors.find { constructor ->
-                    constructor.parameterTypes.size==1&&
+                    constructor.parameterTypes.size==1 && 
                     constructor.parameterTypes.first()==viewClass
                 }?.let { constructor ->
                     { view : View -> constructor.newInstance(view)!! }
                 }!!
 
-        val viewBinding=viewBindingFactory.invoke(view)
+        val viewBinding = viewBindingFactory.invoke(view)
 
         viewBindingField.set(target, viewBinding)
 
@@ -87,13 +87,13 @@ object ReflectiveViewBindingFieldSetter
 
     private fun checkAlternativeBinding(mainBindingClass : Class<*>, alternateBindingClass : Class<*>)
     {
-        val mainBindingFields=mainBindingClass.declaredFields
+        val mainBindingFields = mainBindingClass.declaredFields
             .filter { Modifier.isFinal(it.modifiers)&& Modifier.isPublic(it.modifiers) }
 
-        val alternateBindingFields=alternateBindingClass.declaredFields
+        val alternateBindingFields = alternateBindingClass.declaredFields
             .filter { Modifier.isFinal(it.modifiers)&& Modifier.isPublic(it.modifiers) }
 
-        val missingFields=mainBindingFields.filter { mainBindingField ->
+        val missingFields = mainBindingFields.filter { mainBindingField ->
             alternateBindingFields.find { alternateBindingField ->
                 mainBindingField.name==alternateBindingField.name
             }==null
@@ -107,10 +107,10 @@ object ReflectiveViewBindingFieldSetter
                 +missingFields.joinToString(separator = "\n"))
         }
 
-        val conflictingFields=mainBindingFields.map { mainBindingField ->
+        val conflictingFields = mainBindingFields.map { mainBindingField ->
             mainBindingField to alternateBindingFields.find { alternateBindingField ->
                 mainBindingField.name==alternateBindingField.name
-                &&mainBindingField.type!=alternateBindingField.type
+                && mainBindingField.type!=alternateBindingField.type
             }
         }.filter { (_, alt) -> alt!=null }
 

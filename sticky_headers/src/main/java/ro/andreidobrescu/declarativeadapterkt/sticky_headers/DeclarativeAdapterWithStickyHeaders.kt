@@ -20,14 +20,14 @@ class DeclarativeAdapterWithStickyHeaders
     {
         recyclerView.addItemDecoration(StickyHeaderItemDecoration(
             stickyHeaderViewInstantiator = instantiator@ { index ->
-                val descriptors=getStickyHeaderDescriptors()
-                val descriptor=descriptors.findLast { index>=it.index }
+                val descriptors = getStickyHeaderDescriptors()
+                val descriptor = descriptors.findLast { index>=it.index }
                 return@instantiator descriptor?.stickyHeaderViewCreator
                     ?.invoke(recyclerView.context) as? StickyHeaderView<*>
             },
             stickyHeaderModelTypeProvider = provider@ { index ->
-                val descriptors=getStickyHeaderDescriptors()
-                val descriptor=descriptors.findLast { index>=it.index }
+                val descriptors = getStickyHeaderDescriptors()
+                val descriptor = descriptors.findLast { index>=it.index }
                 return@provider descriptor?.stickyHeaderModelType
             }
         ))
@@ -47,7 +47,7 @@ class DeclarativeAdapterWithStickyHeaders
                 StickyHeaderModel::class.java.isAssignableFrom(cellType.modelClass as Class<*>)
             }
             .mapNotNull { cellType ->
-                val modelWithIndex=items.withIndex().find { (index, item) ->
+                val modelWithIndex = items.withIndex().find { (index, item) ->
                     item::class.java==cellType.modelClass
                 }?:return@mapNotNull null
 
@@ -64,19 +64,19 @@ class DeclarativeAdapterWithStickyHeaders
 
     override fun onCreateViewHolder(parent : ViewGroup, viewType : Int) : RecyclerView.ViewHolder
     {
-        val viewHolder=super.onCreateViewHolder(parent, viewType)
+        val viewHolder = super.onCreateViewHolder(parent, viewType)
 
         viewHolder.itemView.viewTreeObserver.addOnDrawListener(object : ViewTreeObserver.OnDrawListener
         {
             override fun onDraw()
             {
-                if (viewHolder.itemView.context.resources.getBoolean(R.bool.isTablet)&&
-                    viewHolder.itemView is StickyHeaderView<*>&&
+                if (viewHolder.itemView.context.resources.getBoolean(R.bool.isTablet) && 
+                    viewHolder.itemView is StickyHeaderView<*> && 
                     viewHolder.itemView.layoutParams is StaggeredGridLayoutManager.LayoutParams)
                 {
-                    val params=viewHolder.itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams
-                    params.isFullSpan=true
-                    viewHolder.itemView.layoutParams=params
+                    val params = viewHolder.itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams
+                    params.isFullSpan = true
+                    viewHolder.itemView.layoutParams = params
                 }
 
                 Handler(Looper.getMainLooper()).post {

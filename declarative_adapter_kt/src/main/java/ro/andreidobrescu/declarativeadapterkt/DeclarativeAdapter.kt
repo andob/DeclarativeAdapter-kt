@@ -25,9 +25,9 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter<Any>()
         var exceptionLogger = object : ExceptionLogger {
             override fun <MODEL> log(cellView : CellView<MODEL>, model : MODEL, exception : Throwable)
             {
-                val context=cellView.context!!
-                val appInfo=context.packageManager.getApplicationInfo(context.packageName, 0)
-                val appIsDebuggable=appInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE!=0
+                val context = cellView.context!!
+                val appInfo = context.packageManager.getApplicationInfo(context.packageName, 0)
+                val appIsDebuggable = appInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE!=0
                 if (appIsDebuggable)
                 {
                     Toast.makeText(cellView.context!!, exception.message, Toast.LENGTH_SHORT).show()
@@ -39,9 +39,9 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter<Any>()
 
     protected val cellTypes = mutableListOf<CellType<*>>()
 
-    override fun getItemViewType(position: Int): Int
+    override fun getItemViewType(position : Int) : Int
     {
-        val item=items[position]
+        val item = items[position]
 
         for ((index, cellType) in cellTypes.withIndex())
         {
@@ -54,7 +54,7 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter<Any>()
         {
             if (cellType.isModelApplicable(index = position, item = item,
                 classComparer = { itemType, targetType ->
-                    itemType.superclass==targetType||
+                    itemType.superclass==targetType || 
                         targetType.isAssignableFrom(itemType)
                 }))
                 return index
@@ -63,16 +63,16 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter<Any>()
         throw RuntimeException("Invalid adapter configuration! Item: $item, item type: ${item::class.java.simpleName}")
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
+    override fun onCreateViewHolder(parent : ViewGroup, viewType : Int) : RecyclerView.ViewHolder
     {
-        val cellType=cellTypes[viewType]
-        val cellView=cellType.viewCreator!!.invoke(parent.context)
-        cellView.layoutParams=RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
-        val viewHolder=object : RecyclerView.ViewHolder(cellView) {}
+        val cellType = cellTypes[viewType]
+        val cellView = cellType.viewCreator!!.invoke(parent.context)
+        cellView.layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
+        val viewHolder = object : RecyclerView.ViewHolder(cellView) {}
 
         if (cellType.viewModelBinderMethod==null)
         {
-            cellType.viewModelBinderMethod=cellView::class.java.declaredMethods.find { method ->
+            cellType.viewModelBinderMethod = cellView::class.java.declaredMethods.find { method ->
                 method.annotations.filterIsInstance<ModelBinder>().isNotEmpty()
             }
         }
@@ -85,11 +85,11 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter<Any>()
     @Suppress("UNCHECKED_CAST")
     override fun onBindViewHolder(holder : RecyclerView.ViewHolder, position : Int)
     {
-        val cellType=cellTypes[getItemViewType(position)]
+        val cellType = cellTypes[getItemViewType(position)]
         if (cellType.viewModelBinderMethod!=null)
         {
-            val model=items[position]
-            val cellView=holder.itemView as CellView<Any>
+            val model = items[position]
+            val cellView = holder.itemView as CellView<Any>
 
             try
             {
@@ -126,19 +126,19 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter<Any>()
 
     fun <MODEL : Any> whenInstanceOf(clazz : Class<MODEL>, use : (Context) -> CellView<MODEL>) : DeclarativeAdapter
     {
-        val type=CellType<MODEL>()
-        type.modelClass=clazz
-        type.viewCreator=use
+        val type = CellType<MODEL>()
+        type.modelClass = clazz
+        type.viewCreator = use
         cellTypes.add(type)
         return this
     }
 
     fun <MODEL : Any> whenInstanceOf(clazz : Class<MODEL>, and : (MODEL) -> Boolean, use : (Context) -> CellView<MODEL>) : DeclarativeAdapter
     {
-        val type=CellType<MODEL>()
-        type.modelClass=clazz
-        type.extraChecker=and
-        type.viewCreator=use
+        val type = CellType<MODEL>()
+        type.modelClass = clazz
+        type.extraChecker = and
+        type.viewCreator = use
         cellTypes.add(type)
         return this
     }
