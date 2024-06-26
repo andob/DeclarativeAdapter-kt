@@ -72,7 +72,7 @@ This library supports sticky headers (cell views that sticks to the top of the R
 ```
 allprojects {
     repositories {
-        maven { url 'https://maven.andob.info/repository/open_source' }
+        maven { url 'https://andob.io/repository/open_source' }
     }
 }
 ```
@@ -127,7 +127,7 @@ If you are using the ``ViewBinding`` library, please import the ViewBinding comp
 ```
 allprojects {
     repositories {
-        maven { url 'https://maven.andob.info/repository/open_source' }
+        maven { url 'https://andob.io/repository/open_source' }
     }
 }
 ```
