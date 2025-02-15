@@ -104,8 +104,10 @@ Adapter definition:
 ```kotlin
 val adapter = DeclarativeAdapterWithStickyHeaders()
     .whenInstanceOf(YouTubeVideo::class.java, use = ::YouTubeVideoCellView)
-    .whenInstanceOf(CommentsStickyHeader::class.java, use = ::CommentsStickyHeaderView)
-    .whenInstanceOf(Comment::class.java, use = ::CommentCellView)
+    .whenInstanceOf(CommentsStickyHeader::class.java,
+use = ::CommentsStickyHeaderView)
+    .whenInstanceOf(Comment::class.java,
+        use = { CommentCellView(it) })
 
 val listItems = mutableListOf()
 listItems.add(youTubeVideo)

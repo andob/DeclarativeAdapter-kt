@@ -102,7 +102,7 @@ val adapter = DeclarativeAdapter()
            use = ::YourCommentCellView)
        .whenInstanceOf(Comment::class.java,
            and = { comment -> comment.createdBy != User.loggedInUserId },
-           use = ::CommentCellView)
+           use = ::CommentCellViewt) })
 
 val restaurantDetails = provideRestaurantDetails()
 val items = mutableListOf<Any>()
