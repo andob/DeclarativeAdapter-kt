@@ -47,7 +47,7 @@ class RestaurantDetailsActivity : AppCompatActivity()
                 .whenInstanceOf(CommentsStickyHeader::class.java,
                     use = { CommentsHeaderCellView(it) })
                 .whenInstanceOf(Comment::class.java,
-                    and = { comment -> comment.createdBy==User.loggedInUserId },
+                    and = { comment -> comment.createdBy == User.loggedInUserId },
                     use = { context ->
                         YourCommentCellView(context,
                             onDeleteListener = { comment ->
@@ -56,7 +56,7 @@ class RestaurantDetailsActivity : AppCompatActivity()
                             })
                     })
                 .whenInstanceOf(Comment::class.java,
-                    and = { comment -> comment.createdBy!=User.loggedInUserId },
+                    and = { comment -> comment.createdBy != User.loggedInUserId },
                     use = { context -> CommentCellView(context) })
 
         val restaurantDetails = provideRestaurantDetails()

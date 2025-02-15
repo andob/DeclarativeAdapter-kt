@@ -45,8 +45,8 @@ object ReflectiveViewBindingFieldSetter
             bind(target, viewBindingField, viewToBind)
 
             val alternativeBindingType = viewBindingField.getAnnotation(AutoViewBinding::class.java)
-                ?.alternative?.java?.let { alt -> if (alt!=Void::class.java) alt else null }
-            if (alternativeBindingType!=null)
+                ?.alternative?.java?.let { alt -> if (alt != Void::class.java) alt else null }
+            if (alternativeBindingType != null)
                 checkAlternativeBinding(viewBindingField.type, alternativeBindingType)
         }
     }
@@ -58,13 +58,13 @@ object ReflectiveViewBindingFieldSetter
         val viewClass = View::class.java
         val viewBindingFactory = 
             viewBindingField.type.declaredMethods.find { method ->
-                method.name=="bind" && method.parameterTypes.size==1 && 
+                method.name=="bind" && method.parameterTypes.size == 1 &&
                 method.parameterTypes.first()==viewClass
             }?.let { bindMethod ->
                 { view : View -> bindMethod.invoke(null, view)!! }
             }
                 ?:viewBindingField.type.declaredConstructors.find { constructor ->
-                    constructor.parameterTypes.size==1 && 
+                    constructor.parameterTypes.size == 1 &&
                     constructor.parameterTypes.first()==viewClass
                 }?.let { constructor ->
                     { view : View -> constructor.newInstance(view)!! }
@@ -78,7 +78,7 @@ object ReflectiveViewBindingFieldSetter
         Handler(Looper.getMainLooper()).post {
             view.getActivity().lifecycle.addObserver(object : LifecycleEventObserver {
                 override fun onStateChanged(source : LifecycleOwner, event : Lifecycle.Event) {
-                    if (event==Lifecycle.Event.ON_DESTROY)
+                    if (event == Lifecycle.Event.ON_DESTROY)
                         viewBindingField.set(target, null)
                 }
             })
@@ -95,7 +95,7 @@ object ReflectiveViewBindingFieldSetter
 
         val missingFields = mainBindingFields.filter { mainBindingField ->
             alternateBindingFields.find { alternateBindingField ->
-                mainBindingField.name==alternateBindingField.name
+                mainBindingField.name == alternateBindingField.name
             }==null
         }
 
@@ -109,10 +109,10 @@ object ReflectiveViewBindingFieldSetter
 
         val conflictingFields = mainBindingFields.map { mainBindingField ->
             mainBindingField to alternateBindingFields.find { alternateBindingField ->
-                mainBindingField.name==alternateBindingField.name
-                && mainBindingField.type!=alternateBindingField.type
+                mainBindingField.name == alternateBindingField.name
+                && mainBindingField.type != alternateBindingField.type
             }
-        }.filter { (_, alt) -> alt!=null }
+        }.filter { (_, alt) -> alt != null }
 
         if (conflictingFields.isNotEmpty())
         {

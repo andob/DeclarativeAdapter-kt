@@ -8,7 +8,7 @@ fun Class<*>.getAllFields() : List<Field>
         return listOf()
 
     val fields = declaredFields.toMutableList()
-    if (superclass!=null)
+    if (superclass != null)
         fields.addAll(superclass!!.getAllFields())
     return fields
 }

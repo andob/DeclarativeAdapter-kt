@@ -17,11 +17,11 @@ internal fun View.getActivity() : AppCompatActivity
             return lookupContext
 
         if (lookupContext is android.view.ContextThemeWrapper
-            && lookupContext.baseContext!=null)
+            && lookupContext.baseContext != null)
             lookupContext = lookupContext.baseContext
 
         else if (lookupContext is androidx.appcompat.view.ContextThemeWrapper
-                && lookupContext.baseContext!=null)
+                && lookupContext.baseContext != null)
             lookupContext = lookupContext.baseContext
     }
     while (lookupContext !is AppCompatActivity)

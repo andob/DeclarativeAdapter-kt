@@ -19,7 +19,7 @@ class StickyHeaderItemDecoration
         val topChild = recyclerView.getChildAt(0)?:return
 
         val topChildPosition = recyclerView.getChildAdapterPosition(topChild)
-        if (topChildPosition==RecyclerView.NO_POSITION)
+        if (topChildPosition == RecyclerView.NO_POSITION)
             return
 
         val stickyHeaderView = stickyHeaderViewInstantiator.invoke(topChildPosition)?:return
@@ -28,19 +28,19 @@ class StickyHeaderItemDecoration
         fun List<Any>.findHeaderModel() : Any?
         {
             for (i in topChildPosition downTo 0)
-                if (this[i]::class.java==stickyHeaderModelType)
+                if (this[i]::class.java == stickyHeaderModelType)
                     return this[i]
             return null
         }
 
         val items = (recyclerView.adapter as DeclarativeAdapterWithStickyHeaders).items
         val headerModel = items.findHeaderModel()
-        if (headerModel!=null)
+        if (headerModel != null)
         {
             val viewModelBinderMethod = stickyHeaderView::class.java.declaredMethods
                 .find { method -> method.annotations.find { it is ModelBinder }!=null }
 
-            if (viewModelBinderMethod!=null)
+            if (viewModelBinderMethod != null)
             {
                 try { viewModelBinderMethod.invoke(stickyHeaderView, headerModel) }
                 catch (ex : Exception) {}
@@ -86,7 +86,7 @@ class StickyHeaderItemDecoration
         for (i in 0 until recyclerView.childCount)
         {
             val child = recyclerView.getChildAt(i)
-            if (child.top<=contactPoint && contactPoint<child.bottom)
+            if (child.top <= contactPoint && contactPoint < child.bottom)
                 return child
         }
 

@@ -18,7 +18,7 @@ class CellType<MODEL : Any>
         {
             if (classComparer(item::class.java, modelClass!!))
             {
-                if (extraChecker==null)
+                if (extraChecker == null)
                     return true
                 return extraChecker!!.invoke(item as MODEL)
             }

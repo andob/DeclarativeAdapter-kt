@@ -21,13 +21,13 @@ class DeclarativeAdapterWithStickyHeaders
         recyclerView.addItemDecoration(StickyHeaderItemDecoration(
             stickyHeaderViewInstantiator = instantiator@ { index ->
                 val descriptors = getStickyHeaderDescriptors()
-                val descriptor = descriptors.findLast { index>=it.index }
+                val descriptor = descriptors.findLast { index >= it.index }
                 return@instantiator descriptor?.stickyHeaderViewCreator
                     ?.invoke(recyclerView.context) as? StickyHeaderView<*>
             },
             stickyHeaderModelTypeProvider = provider@ { index ->
                 val descriptors = getStickyHeaderDescriptors()
-                val descriptor = descriptors.findLast { index>=it.index }
+                val descriptor = descriptors.findLast { index >= it.index }
                 return@provider descriptor?.stickyHeaderModelType
             }
         ))
@@ -48,7 +48,7 @@ class DeclarativeAdapterWithStickyHeaders
             }
             .mapNotNull { cellType ->
                 val modelWithIndex = items.withIndex().find { (index, item) ->
-                    item::class.java==cellType.modelClass
+                    item::class.java == cellType.modelClass
                 }?:return@mapNotNull null
 
                 StickyHeaderDescriptor(

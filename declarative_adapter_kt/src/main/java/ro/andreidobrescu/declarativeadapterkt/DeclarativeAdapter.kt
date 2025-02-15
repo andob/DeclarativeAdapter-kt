@@ -27,7 +27,7 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter<Any>()
             {
                 val context = cellView.context!!
                 val appInfo = context.packageManager.getApplicationInfo(context.packageName, 0)
-                val appIsDebuggable = appInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE!=0
+                val appIsDebuggable = appInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
                 if (appIsDebuggable)
                 {
                     Toast.makeText(cellView.context!!, exception.message, Toast.LENGTH_SHORT).show()
@@ -46,7 +46,7 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter<Any>()
         for ((index, cellType) in cellTypes.withIndex())
         {
             if (cellType.isModelApplicable(index = position, item = item,
-                classComparer = { itemType, targetType -> itemType==targetType }))
+                classComparer = { itemType, targetType -> itemType == targetType }))
                 return index
         }
 
@@ -54,7 +54,7 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter<Any>()
         {
             if (cellType.isModelApplicable(index = position, item = item,
                 classComparer = { itemType, targetType ->
-                    itemType.superclass==targetType || 
+                    itemType.superclass == targetType ||
                         targetType.isAssignableFrom(itemType)
                 }))
                 return index
@@ -70,7 +70,7 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter<Any>()
         cellView.layoutParams = RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT)
         val viewHolder = object : RecyclerView.ViewHolder(cellView) {}
 
-        if (cellType.viewModelBinderMethod==null)
+        if (cellType.viewModelBinderMethod == null)
         {
             cellType.viewModelBinderMethod = cellView::class.java.declaredMethods.find { method ->
                 method.annotations.filterIsInstance<ModelBinder>().isNotEmpty()
@@ -86,7 +86,7 @@ open class DeclarativeAdapter : BaseDeclarativeAdapter<Any>()
     override fun onBindViewHolder(holder : RecyclerView.ViewHolder, position : Int)
     {
         val cellType = cellTypes[getItemViewType(position)]
-        if (cellType.viewModelBinderMethod!=null)
+        if (cellType.viewModelBinderMethod != null)
         {
             val model = items[position]
             val cellView = holder.itemView as CellView<Any>
