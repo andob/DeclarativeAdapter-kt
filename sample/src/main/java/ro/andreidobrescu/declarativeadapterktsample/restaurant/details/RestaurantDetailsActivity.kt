@@ -40,24 +40,21 @@ class RestaurantDetailsActivity : AppCompatActivity()
 
         val adapter = DeclarativeAdapterWithStickyHeaders(binding.recyclerView)
 
-        adapter.whenInstanceOf(Restaurant::class.java,
-                    use = { RestaurantCellView(it) })
-                .whenInstanceOf(Receipe::class.java,
-                    use = { ReceipeCellView(it) })
-                .whenInstanceOf(CommentsStickyHeader::class.java,
-                    use = { CommentsHeaderCellView(it) })
-                .whenInstanceOf(Comment::class.java,
-                    and = { comment -> comment.createdBy == User.loggedInUserId },
-                    use = { context ->
-                        YourCommentCellView(context,
-                            onDeleteListener = { comment ->
-                                adapter.items.remove(comment)
-                                adapter.notifyDataSetChanged()
-                            })
-                    })
-                .whenInstanceOf(Comment::class.java,
-                    and = { comment -> comment.createdBy != User.loggedInUserId },
-                    use = { context -> CommentCellView(context) })
+        adapter.whenInstanceOf(Restaurant::class.java, use = ::RestaurantCellView)
+            .whenInstanceOf(Receipe::class.java, use = ::ReceipeCellView)
+            .whenInstanceOf(CommentsStickyHeader::class.java, use = ::CommentsHeaderCellView)
+            .whenInstanceOf(Comment::class.java,
+                and = { comment -> comment.createdBy == User.loggedInUserId },
+                use = { context ->
+                    YourCommentCellView(context,
+                        onDeleteListener = { comment ->
+                            adapter.items.remove(comment)
+                            adapter.notifyDataSetChanged()
+                        })
+                })
+            .whenInstanceOf(Comment::class.java,
+                and = { comment -> comment.createdBy != User.loggedInUserId },
+                use = { context -> CommentCellView(context) })
 
         val restaurantDetails = provideRestaurantDetails()
         val items = mutableListOf<Any>()
