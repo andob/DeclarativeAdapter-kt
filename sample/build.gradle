@@ -4,11 +4,11 @@ apply plugin: 'kotlin-kapt'
 
 android {
     namespace 'ro.andreidobrescu.declarativeadapterktsample'
-    compileSdk 35
+    compileSdk = 36
     defaultConfig {
         applicationId "ro.andreidobrescu.declarativeadapterktsample"
-        minSdk 21
-        targetSdk 35
+        minSdk = 21
+        targetSdk = 36
     }
     buildFeatures {
         viewBinding true
@@ -39,16 +39,16 @@ dependencies {
     implementation"org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     //AppCompat
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'androidx.cardview:cardview:1.0.0'
 
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     //BundleArgs
-    implementation 'ro.andob.bundleargs:bundleargs-annotation:2.2.1'
-    kapt 'ro.andob.bundleargs:bundleargs-processor:2.2.1'
+    implementation 'ro.andob.bundleargs:bundleargs-annotation:2.2.2'
+    kapt 'ro.andob.bundleargs:bundleargs-processor:2.2.2'
 
     //DeclarativeAdapter
     implementation project(":declarative_adapter_kt")

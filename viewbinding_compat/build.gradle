@@ -4,11 +4,11 @@ apply plugin: 'maven-publish'
 
 android {
     namespace 'ro.andreidobrescu.declarativeadapterkt.viewbinding_compat'
-    compileSdk 35
+    compileSdk = 36
 
     defaultConfig {
-        minSdk 21
-        targetSdk 35
+        minSdk = 21
+        targetSdk = 36
     }
 
     buildTypes {
@@ -32,7 +32,7 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation project(":declarative_adapter_kt")
 }
 
@@ -51,7 +51,7 @@ project.afterEvaluate {
                 from components.release
                 groupId 'ro.andob.declarativeadapter'
                 artifactId 'viewbinding-compat'
-                version '1.3.1.1'
+                version '1.3.1.2'
             }
         }
     }
